@@ -11,8 +11,6 @@ class Routes {
 
   constructor(app: App, server: Application) {
 
-    console.log('Creating Routes');
-
     const router: Router = Router();
 
     router.get('/status', (req, res) => {
@@ -27,6 +25,12 @@ class Routes {
 
     this.clientRoutes = new ClientRoutes(app, server);
     this.sceneRoutes = new SceneRoutes(app, server);
+
+    console.log('✔️ Routes Success');
+
+    server.use((req, res) => {
+      res.status(404).json('Not Found')
+    });
 
     // Fix 404
     // server.use((err, req, res, next) => {

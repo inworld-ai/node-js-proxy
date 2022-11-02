@@ -7,8 +7,7 @@ const Config = {
   INWORLD: {
     KEY: process.env.INWORLD_KEY,
     SECRET: process.env.INWORLD_SECRET,
-    SCENE: process.env.INWORLD_SCENE,
-    SCENES: process.env.INWORLD_SCENES
+    SCENE: process.env.INWORLD_SCENE
   }
 
 };

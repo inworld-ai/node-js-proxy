@@ -4,13 +4,7 @@ import App from '../app'
 
 class SceneRoutes {
 
-  private app: App | null = null;
-
   constructor(app: App, server: Application) {
-
-    console.log('---> Creating Scene Routes')
-
-    this.app = app;
 
     const router: Router = Router();
 
@@ -18,19 +12,36 @@ class SceneRoutes {
       const {
         body: { id }
       } = req;
-      const response = await this.app!.getServices()!.getSceneService()!.setScene(id);
+      const response = await app.getServices()!.getSceneService()!.setScene(id);
       res.json(response);
+    });
+
+    router.get('/scene/character', async (req, res) => {
+      const character = await app.getServices()!.getSceneService()!.getCharacter();
+      res.json(character);
+    });
+
+    router.get('/scene/characters', async (req, res) => {
+      const characters = await app.getServices()!.getSceneService()!.getCharacters();
+      res.json(characters);
+    });
+
+    router.get('/scene/events', async (req, res) => {
+      const events = await app.getServices()!.getSceneService()!.getEvents();
+      res.json(events);
     });
 
     router.post('/scene/sendtext', async (req, res) => {
       const {
         body: { message }
       } = req;
-      const response = await this.app!.getServices()!.getSceneService()!.sendText(message);
-      res.sendStatus(200);
+      const response = await app.getServices()!.getSceneService()!.sendText(message);
+      res.sendStatus(202);
     });
 
     server.use(router);
+
+    console.log('   Scene Routes Success')
 
   }
 

@@ -6,25 +6,16 @@ class ClientRoutes {
 
   constructor(app: App, server: Application) {
 
-    console.log('---> Creating Client Routes')
-
     const router: Router = Router();
 
-    router.get('/client', (req, res) => {
-      res.send("Client");
-    });
-
-    router.get('/client/character', async (req, res) => {
-      const character = await app.getServices()!.getClientService()!.getCharacter();
-      res.json(character);
-    });
-
-    router.get('/client/characters', async (req, res) => {
-      const characters = await app.getServices()!.getClientService()!.getCharacters();
-      res.json(characters);
+    router.get('/client/token', async (req, res) => {
+      const token = await app.getServices()!.getClientService()!.getToken();
+      res.json(token);
     });
 
     server.use(router);
+
+    console.log('   Client Routes Success')
 
   }
 

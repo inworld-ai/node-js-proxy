@@ -8,8 +8,12 @@ class Services {
   private sceneService: SceneService | null = null;
 
   constructor(connectors: Connectors) {
-    this.clientService = new ClientService(connectors.getInworldConnector());
-    this.sceneService = new SceneService(connectors.getInworldConnector());
+
+    this.clientService = new ClientService(connectors);
+    this.sceneService = new SceneService(connectors);
+
+    console.log('✔️ Services Success');
+
   }
 
   getClientService(): ClientService | null  {

@@ -1,24 +1,39 @@
 import App from '../app'
+import Connectors from '../connectors';
 import InworldConnector from '../connectors/inworld.connector';
 
 class SceneService {
 
-  private inworld: InworldConnector | null = null;
+  private connectors: Connectors | null = null;
 
-  constructor(inworld: InworldConnector | null) {
-    console.log('---> Create SceneService');
-    this.inworld = inworld;
+  constructor(connectors: Connectors | null) {
+    this.connectors = connectors;
+    console.log('   Scene Service Success')
+  }
+
+  async getCharacter() {
+    const character = await this.connectors!.getInworldConnector()!.getConnection().getCurrentCharacter();
+    return character
+  }
+
+  async getCharacters() {
+    const characters = await this.connectors!.getInworldConnector()!.getConnection().getCharacters();
+    return characters
   }
 
   async setScene(id: string) {
-    this.inworld!.getClient().getClient().setScene(id);
-    const response = this.inworld!.getClient().getConnection();
-    console.log('setScene', response);
+    this.connectors!.getInworldConnector()!.getClient().getClient().setScene(id);
+    const response = this.connectors!.getInworldConnector()!.getClient().getConnection();
     return response;
   }
 
+  async getEvents() {
+    const events = this.connectors!.getInworldConnector()!.flushQueue();
+    return events;
+  }
+
   async sendText(text: string) {
-    await this.inworld!.getConnection().sendText(text);
+    await this.connectors!.getInworldConnector()!.getConnection().sendText(text);
   }
 
 }

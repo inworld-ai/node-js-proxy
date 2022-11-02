@@ -1,5 +1,6 @@
 import cors from 'cors';
 import express from 'express';
+import morgan from 'morgan';
 
 import App  from './app';
 import Config from './config';
@@ -9,13 +10,21 @@ async function main() {
 
   try {
 
+    console.log(`Inworld.AI NodeJS Proxy`);
+
     const server: express.Application = express();
     server.use(cors());
     server.use(express.json());
-    server.use((req, res, next) => {
-      console.log('Request', req.path);
-      next();
-    });
+    server.use(
+      morgan('tiny', {
+        skip(req, res) {
+          if (req.url === '/status') {
+            return true
+          }
+          return false
+        }
+      })
+    )
 
     const app = new App();
 
@@ -23,7 +32,7 @@ async function main() {
 
     const port: number = Config.PORT;
     server.listen(port, () => {
-        console.log(`Inworld.AI NodeJS Proxy http://localhost:${port}/`);
+      console.log(`Server Running at http://localhost:${port}/`);
     });
 
   } catch (err) {
@@ -32,6 +41,7 @@ async function main() {
     process.exit(1);
 
   }
+
 }
 
 main();

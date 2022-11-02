@@ -1,23 +1,27 @@
+import {
+  InworldClient,
+} from '@inworld/nodejs-sdk';
+
 import App from '../app'
+import Connectors from '../connectors';
 import InworldConnector from '../connectors/inworld.connector';
 
 class ClientService {
 
-  private inworld: InworldConnector | null = null;
+  private connectors: Connectors | null = null;
 
-  constructor(inworld: InworldConnector | null) {
-    console.log('---> Create ClientService');
-    this.inworld = inworld;
+  constructor(connectors: Connectors | null) {
+    this.connectors = connectors;
+    console.log('   Client Service Success')
   }
 
-  async getCharacter() {
-    const character = await this.inworld!.getConnection().getCurrentCharacter();
-    return character
-  }
-
-  async getCharacters() {
-    const characters = await this.inworld!.getConnection().getCharacters();
-    return characters
+  getToken() {
+    // this.connectors/!.getInworldConnector()!
+    const client = new InworldClient().setApiKey({
+      key: process.env.INWORLD_KEY!,
+      secret: process.env.INWORLD_SECRET!,
+    });
+    return client.generateSessionToken();
   }
 
 }
