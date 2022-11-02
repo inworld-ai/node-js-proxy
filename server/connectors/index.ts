@@ -1,12 +1,17 @@
-// @ts-check
-import express from 'express';
+import InworldConnector from './inworld.connector';
 
-import inworldConnector from './inworld'
+class Connectors {
 
-async function initConnectors(service: any) {
+  private inworldConnector: InworldConnector | null = null;
 
-  await inworldConnector(service)
+  constructor() {
+    this.inworldConnector = new InworldConnector();
+  }
+
+  getInworldConnector(): InworldConnector | null {
+    return this.inworldConnector;
+  }
 
 }
 
-export default initConnectors
+export default Connectors;

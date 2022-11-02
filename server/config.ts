@@ -1,16 +1,16 @@
-// @ts-check
 import 'dotenv/config';
 
-const config = {
+const Config = {
 
-  port: Number(process.env.PORT) || 3000,
+  PORT: Number(process.env.PORT) || 3000,
 
-  inworld: {
-    key: process.env.INWORLD_KEY,
-    secret: process.env.INWORLD_SECRET,
-    scene: process.env.INWORLD_SCENE
+  INWORLD: {
+    KEY: process.env.INWORLD_KEY,
+    SECRET: process.env.INWORLD_SECRET,
+    SCENE: process.env.INWORLD_SCENE,
+    SCENES: process.env.INWORLD_SCENES
   }
 
-}
+};
 
-export default config
+export default Config

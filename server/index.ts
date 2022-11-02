@@ -1,50 +1,28 @@
-
 import cors from 'cors';
 import express from 'express';
-import { NextFunction, Request, Response, Router } from "express";
-import {
-  InworldClient,
-  InworldConnectionService
-} from '@inworld/nodejs-sdk';
 
-import config from './config';
-import connectors from './connectors';
-import loaders from './loaders';
-import routes from './routes';
-
-const app: express.Application = express();
-
-const port: number = Number(config.port);
-
+import App  from './app';
+import Config from './config';
+import Routes from './routes';
 
 async function main() {
 
   try {
 
-    const service = {
-      connectors: {
-        inworld: {
-          client: InworldClient,
-          connection: InworldConnectionService
-        }
-      },
-      services: {
-        client: null
-      }
-    };
+    const server: express.Application = express();
+    server.use(cors());
+    server.use(express.json());
+    server.use((req, res, next) => {
+      console.log('Request', req.path);
+      next();
+    });
 
-    await connectors(service);
-    await loaders(service);
+    const app = new App();
 
-    app.use(cors());
+    const routes = new Routes(app, server);
 
-    app.use(express.json());
-
-    for (let router of routes) {
-      app.use(router);
-    }
-
-    app.listen(port, () => {
+    const port: number = Config.PORT;
+    server.listen(port, () => {
         console.log(`Inworld.AI NodeJS Proxy http://localhost:${port}/`);
     });
 

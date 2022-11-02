@@ -10,6 +10,7 @@ import {
 } from '@inworld/nodejs-sdk';
 import { ChildProcess, fork } from 'child_process';
 export class Client {
+
   private client: InworldClient;
   private connection: InworldConnectionService | null = null;
 
@@ -76,11 +77,15 @@ export class Client {
   }
 
   closeConnection() {
+    console.log('Inworld closeConnection')
+  }
+
+  getClient() {
+    return this.client;
   }
 
   getConnection() {
     this.connection = this.client.build();
-
     return this.connection;
   }
 

@@ -1,15 +1,41 @@
-import { Router } from "express";
+import { Application, Router } from "express";
 
-import clientRouter from './client'
+import App from '../app'
+import ClientRoutes from './client.routes'
+import SceneRoutes from './scene.routes'
 
-const router: Router = Router();
+class Routes {
 
-router.get('/status', (_req, _res) => {
-  _res.sendStatus(200);
-});
+  private clientRoutes: ClientRoutes | null = null;
+  private sceneRoutes: SceneRoutes | null = null;
 
-router.get('/', (_req, _res) => {
-  _res.send("Inworld.AI NodeJS Proxy");
-});
+  constructor(app: App, server: Application) {
 
-export default [router, clientRouter];
+    console.log('Creating Routes');
+
+    const router: Router = Router();
+
+    router.get('/status', (req, res) => {
+      res.sendStatus(200);
+    });
+
+    router.get('/', (req, res) => {
+      res.send("Inworld.AI NodeJS Proxy");
+    });
+
+    server.use(router);
+
+    this.clientRoutes = new ClientRoutes(app, server);
+    this.sceneRoutes = new SceneRoutes(app, server);
+
+    // Fix 404
+    // server.use((err, req, res, next) => {
+    //   console.error(err)
+    //   res.status(err.output.statusCode).json(err.output.payload)
+    // })
+
+  }
+
+}
+
+export default Routes;
