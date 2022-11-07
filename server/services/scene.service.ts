@@ -18,7 +18,7 @@ class SceneService {
 
   async setCharacter(id: string) {
     const characters = await this.connectors!.getInworldConnector()!.getConnection().getCharacters();
-    const character = characters.find(character => character.getResourceName() === id);
+    const character = characters.find(character => character.getId() === id);
     return character || null;
   }
 

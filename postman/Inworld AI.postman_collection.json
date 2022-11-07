@@ -27,6 +27,35 @@
 			"response": []
 		},
 		{
+			"name": "Set Current Character",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"id\":\"workspaces/default-otlidj4fiivmusuoatwm4a/characters/ron_carroll\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/scene/character",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"scene",
+						"character"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get Characters",
 			"request": {
 				"method": "GET",
@@ -41,6 +70,45 @@
 					"path": [
 						"scene",
 						"characters"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Scene",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/scene",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"scene"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Close Connection",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/client/close",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"client",
+						"close"
 					]
 				}
 			},
@@ -75,13 +143,41 @@
 			"response": []
 		},
 		{
+			"name": "Set Scene Ministry of Sound",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"id\":\"workspaces/default-otlidj4fiivmusuoatwm4a/scenes/ministry_of_sound\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/scene",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"scene"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Set Scene Cats Tree",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"id\":\"workspaces/default-otlidj4fiivmusuoatwm4a/scenes/the_queens_castle\"}",
+					"raw": "{\"id\":\"workspaces/default-otlidj4fiivmusuoatwm4a/scenes/the_cheshire_cats_tree\"}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -193,7 +289,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"message\":\"Who are you?\"}",
+					"raw": "{\"message\":\"What is your name?\"}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -243,10 +339,71 @@
 			"response": []
 		},
 		{
+			"name": "Get Status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/client/status",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"client",
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get Token",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/client/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"client",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Username",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\":\"Bob Jones\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/client/username",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"client",
+						"username"
+					]
+				}
 			},
 			"response": []
 		}
