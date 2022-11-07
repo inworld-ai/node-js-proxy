@@ -16,15 +16,24 @@ class SceneService {
     return character
   }
 
+  async setCharacter(id: string) {
+    const characters = await this.connectors!.getInworldConnector()!.getConnection().getCharacters();
+    const character = characters.find(character => character.getResourceName() === id);
+    return character || null;
+  }
+
   async getCharacters() {
     const characters = await this.connectors!.getInworldConnector()!.getConnection().getCharacters();
-    return characters
+    return characters;
+  }
+
+  async getScene() {
+    const scene = this.connectors!.getInworldConnector()!.getScene();
+    return scene
   }
 
   async setScene(id: string) {
-    this.connectors!.getInworldConnector()!.getClient().getClient().setScene(id);
-    const response = this.connectors!.getInworldConnector()!.getClient().getConnection();
-    return response;
+    return this.connectors!.getInworldConnector()!.setScene(id);
   }
 
   async getEvents() {

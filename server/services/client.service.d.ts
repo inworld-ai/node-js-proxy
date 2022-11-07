@@ -5,5 +5,6 @@ import InworldConnector from '../connectors/inworld.connector';
 export declare class ClientService {
   private connectors: Connectors;
   constructor(connectors: Connectors);
+  close();
   getToken();
 }

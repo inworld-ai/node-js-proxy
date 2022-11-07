@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "license": "SEE LICENSE IN LICENSE.md",
   "scripts": {
-    "start": "nodemon server/index.ts"
+    "start": "ts-node server/index.ts",
+    "dev": "nodemon server/index.ts"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",

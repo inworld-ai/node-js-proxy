@@ -6,6 +6,7 @@ import {
   ServiceError,
 } from '@inworld/nodejs-sdk';
 import { ChildProcess, fork } from 'child_process';
+
 export class Client {
 
   private client: InworldClient;
@@ -13,29 +14,35 @@ export class Client {
 
   constructor(props: {
     config?: ClientConfiguration;
+    key: string | undefined;
+    secret: string | undefined;
+    scene: string | undefined;
     onDisconnect: () => void;
-    onMessage: (packet: InworldPacket) => void
+    onError: (err: ServiceError) => void;
+    onMessage: (packet: InworldPacket) => void;
   }) {
+
     this.client = new InworldClient()
-      .setApiKey({
-        key: process.env.INWORLD_KEY!,
-        secret: process.env.INWORLD_SECRET!,
-      })
-      .setScene(process.env.INWORLD_SCENE!)
-      .setOnError((err: ServiceError) => console.error(`Error: ${err.message}`))
-      .setOnDisconnect(() => {
-        console.log('Disconnected');
-        props.onDisconnect();
-      })
+      .setOnError(props.onError)
+      .setOnDisconnect(props.onDisconnect)
       .setOnMessage(props.onMessage);
+
+    if (props.key && props.secret)
+      this.client.setApiKey({ key: props.key, secret: props.secret });
+
+    if (props.scene) {
+      this.client.setScene(props.scene);
+    }
 
     if (props.config) {
       this.client.setConfiguration(props.config);
     }
+
   }
 
   closeConnection() {
-    console.log('Inworld closeConnection')
+    if (this.connection)
+      this.connection.close();
   }
 
   getClient() {

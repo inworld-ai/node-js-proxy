@@ -15,13 +15,28 @@ class ClientService {
     console.log('   Client Service Success')
   }
 
+  close() {
+    return this.connectors!.getInworldConnector()!.getClient().closeConnection();
+  }
+
   getToken() {
-    // this.connectors/!.getInworldConnector()!
     const client = new InworldClient().setApiKey({
       key: process.env.INWORLD_KEY!,
       secret: process.env.INWORLD_SECRET!,
     });
     return client.generateSessionToken();
+  }
+
+  getIsActive() {
+    return this.connectors!.getInworldConnector()!.getClient().getConnection().isActive();
+  }
+
+  setConfiguration(configuration: Object) {
+    return this.connectors!.getInworldConnector()!.getClient().getClient().setConfiguration(configuration);
+  }
+
+  setUsername(name: string) {
+    return this.connectors!.getInworldConnector()!.getClient().getClient().setUser({ fullName: name });
   }
 
 }

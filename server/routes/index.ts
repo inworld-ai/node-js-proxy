@@ -1,8 +1,8 @@
 import { Application, Router } from "express";
 
-import App from '../app'
-import ClientRoutes from './client.routes'
-import SceneRoutes from './scene.routes'
+import App from '../app';
+import ClientRoutes from './client.routes';
+import SceneRoutes from './scene.routes';
 
 class Routes {
 
@@ -29,7 +29,7 @@ class Routes {
     console.log('✔️ Routes Success');
 
     server.use((req, res) => {
-      res.status(404).json('Not Found')
+      res.status(404).json('Not Found');
     });
 
     // Fix 404

@@ -1,3 +1,4 @@
+import { ServiceError } from '@grpc/grpc-js';
 import {
   Actor,
   EmotionBehavior,
@@ -14,6 +15,10 @@ class InworldConnector {
   private connection: InworldConnectionService;
   private queue: any[];
 
+  private key: string | undefined = process.env.INWORLD_KEY
+  private secret: string | undefined = process.env.INWORLD_SECRET
+  private scene: string | undefined = process.env.INWORLD_SCENE
+
   constructor() {
 
     this.queue = [];
@@ -22,9 +27,11 @@ class InworldConnector {
       config: {
         capabilities: { audio: true, emotions: true },
       },
-      onDisconnect: () => {
-        console.error('❗ Inworld disconnected');
-      },
+      key: this.key,
+      secret: this.secret,
+      scene: this.scene,
+      onDisconnect: onDisconnect,
+      onError: onError,
       onMessage: onMessage
     });
     this.client = client;
@@ -33,6 +40,26 @@ class InworldConnector {
     this.connection = connection;
 
     var parent = this;
+
+    function onDisconnect() {
+      console.info('❗ Inworld disconnected ' + Date.now());
+    }
+
+    function onError(err: ServiceError) {
+      switch (err.code) {
+        case 1: // Conversation cancelled
+          console.error('❗ Inworld cancelled error ', err.details);
+          break;
+        case 10: // Conversation paused due to inactivity
+          console.error('❗ Inworld paused error ', err.details);
+          break;
+        default:
+          console.error('onError', err.code)
+          console.error('❗ Inworld default ', err);
+          break;
+      }
+
+    }
 
     function onMessage(packet: InworldPacket) {
 
@@ -155,6 +182,15 @@ class InworldConnector {
 
   }
 
+  getScene() {
+    return this.scene
+  }
+
+  setScene(id : string) {
+    this.scene = id
+    return this.client.getClient().setScene(this.scene).build()
+  }
+
   flushQueue() {
     return this.queue.splice(0, this.queue.length);
   }
@@ -164,7 +200,7 @@ class InworldConnector {
   }
 
   getConnection() {
-    return this.client.getConnection();
+    return this.connection;
   }
 
 }
