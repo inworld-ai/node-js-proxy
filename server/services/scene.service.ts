@@ -12,18 +12,19 @@ class SceneService {
   }
 
   async getCharacter() {
-    const character = await this.connectors!.getInworldConnector()!.getConnection().getCurrentCharacter();
+    const character = await this.connectors!.getInworldConnector()!.getConnection()!.getCurrentCharacter();
     return character
   }
 
   async setCharacter(id: string) {
-    const characters = await this.connectors!.getInworldConnector()!.getConnection().getCharacters();
+    const characters = await this.connectors!.getInworldConnector()!.getConnection()!.getCharacters();
     const character = characters.find(character => character.getId() === id);
+    // await this.connectors!.getInworldConnector()!.getConnection()!.setCharacter(character)
     return character || null;
   }
 
   async getCharacters() {
-    const characters = await this.connectors!.getInworldConnector()!.getConnection().getCharacters();
+    const characters = await this.connectors!.getInworldConnector()!.getConnection()!.getCharacters();
     return characters;
   }
 
@@ -42,7 +43,7 @@ class SceneService {
   }
 
   async sendText(text: string) {
-    await this.connectors!.getInworldConnector()!.getConnection().sendText(text);
+    await this.connectors!.getInworldConnector()!.getConnection()!.sendText(text);
   }
 
 }

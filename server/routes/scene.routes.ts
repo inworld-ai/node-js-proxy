@@ -51,6 +51,7 @@ class SceneRoutes {
       const {
         body: { message }
       } = req;
+      console.log('/scene/sendtext', message)
       const response = await app.getServices()!.getSceneService()!.sendText(message);
       res.sendStatus(202);
     });

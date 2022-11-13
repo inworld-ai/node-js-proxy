@@ -7,36 +7,31 @@ import {
 } from '@inworld/nodejs-sdk';
 import { ChildProcess, fork } from 'child_process';
 
-export class Client {
+class Client {
 
   private client: InworldClient;
   private connection: InworldConnectionService | null = null;
 
   constructor(props: {
     config?: ClientConfiguration;
-    key: string | undefined;
-    secret: string | undefined;
-    scene: string | undefined;
-    onDisconnect: () => void;
-    onError: (err: ServiceError) => void;
-    onMessage: (packet: InworldPacket) => void;
+    key: string;
+    secret: string;
+    scene: string;
+    playerName?: string | undefined;
+    onDisconnect?: () => void | undefined;
+    onError?: (err: ServiceError) => void | undefined;
+    onMessage?: (packet: InworldPacket) => void | undefined;
   }) {
 
-    this.client = new InworldClient()
-      .setOnError(props.onError)
-      .setOnDisconnect(props.onDisconnect)
-      .setOnMessage(props.onMessage);
+    this.client = new InworldClient();
+    this.client.setApiKey({ key: props.key, secret: props.secret });
 
-    if (props.key && props.secret)
-      this.client.setApiKey({ key: props.key, secret: props.secret });
-
-    if (props.scene) {
-      this.client.setScene(props.scene);
-    }
-
-    if (props.config) {
-      this.client.setConfiguration(props.config);
-    }
+    if (props.config) this.client.setConfiguration(props.config);
+    if (props.scene) this.client.setScene(props.scene);
+    if (props.playerName) this.client.setUser({ fullName: props.playerName });
+    if (props.onError) this.client.setOnError(props.onError);
+    if (props.onDisconnect) this.client.setOnDisconnect(props.onDisconnect);
+    if (props.onMessage) this.client.setOnMessage(props.onMessage);
 
   }
 
@@ -55,3 +50,5 @@ export class Client {
   }
 
 }
+
+export default Client

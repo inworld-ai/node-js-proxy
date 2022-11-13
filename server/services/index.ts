@@ -7,13 +7,12 @@ class Services {
   private clientService: ClientService | null = null;
   private sceneService: SceneService | null = null;
 
-  constructor(connectors: Connectors) {
+  constructor() {}
 
+  async init(connectors: Connectors) {
     this.clientService = new ClientService(connectors);
     this.sceneService = new SceneService(connectors);
-
     console.log('✔️ Services Success');
-
   }
 
   getClientService(): ClientService | null  {

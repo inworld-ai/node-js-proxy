@@ -27,6 +27,7 @@ async function main() {
     )
 
     const app = new App();
+    await app.init();
 
     const routes = new Routes(app, server);
 

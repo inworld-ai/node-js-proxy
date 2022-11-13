@@ -9,8 +9,16 @@ class ClientRoutes {
     const router: Router = Router();
 
     router.get('/client/close', async (req, res) => {
-      const response = await app.getServices()!.getClientService()!.close();
-      res.json(response);
+      const response = await app.getServices()!.getClientService()!.clientClose();
+      res.sendStatus(200);
+    });
+
+    router.post('/client/open', async (req, res) => {
+      const {
+        body: { playerName, scene, character }
+      } = req;
+      const response = await app.getServices()!.getClientService()!.clientOpen(playerName, scene, character);
+      res.sendStatus(201);
     });
 
     router.get('/client/token', async (req, res) => {

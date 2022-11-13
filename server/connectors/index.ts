@@ -6,7 +6,12 @@ class Connectors {
 
   constructor() {
     this.inworldConnector = new InworldConnector();
+  }
+
+  async init() {
+    await this.inworldConnector!.init();
     console.log('✔️ Connectors Success');
+    return;
   }
 
   getInworldConnector(): InworldConnector | null {

@@ -15,8 +15,14 @@ class ClientService {
     console.log('   Client Service Success')
   }
 
-  close() {
-    return this.connectors!.getInworldConnector()!.getClient().closeConnection();
+  clientOpen(playerName: string, scene: string, character: string) {
+    console.log('create client', { playerName, scene, character })
+    return this.connectors!.getInworldConnector()!.clientOpen({ playerName, scene, character });
+    return
+  }
+
+  clientClose() {
+    return this.connectors!.getInworldConnector()!.getClient()!.closeConnection();
   }
 
   getToken() {
@@ -28,15 +34,15 @@ class ClientService {
   }
 
   getIsActive() {
-    return this.connectors!.getInworldConnector()!.getClient().getConnection().isActive();
+    return this.connectors!.getInworldConnector()!.getClient()!.getConnection()!.isActive();
   }
 
   setConfiguration(configuration: Object) {
-    return this.connectors!.getInworldConnector()!.getClient().getClient().setConfiguration(configuration);
+    return this.connectors!.getInworldConnector()!.getClient()!.getClient().setConfiguration(configuration);
   }
 
   setUsername(name: string) {
-    return this.connectors!.getInworldConnector()!.getClient().getClient().setUser({ fullName: name });
+    return this.connectors!.getInworldConnector()!.getClient()!.getClient().setUser({ fullName: name });
   }
 
 }

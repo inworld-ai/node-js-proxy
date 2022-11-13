@@ -8,7 +8,12 @@ class App {
 
   constructor() {
     this.connectors = new Connectors();
-    this.services = new Services(this.connectors);
+    this.services = new Services();
+  }
+
+  async init() {
+    await this.connectors!.init();
+    await this.services!.init(this.connectors!);
   }
 
   getConnectors(): Connectors | null  {
