@@ -15,9 +15,9 @@ class ClientRoutes {
 
     router.post('/client/open', async (req, res) => {
       const {
-        body: { playerName, scene, character }
+        body: { playerName, uid, scene, character }
       } = req;
-      const response = await app.getServices()!.getClientService()!.clientOpen(playerName, scene, character);
+      const response = await app.getServices()!.getClientService()!.clientOpen(playerName, uid, scene, character);
       res.sendStatus(201);
     });
 

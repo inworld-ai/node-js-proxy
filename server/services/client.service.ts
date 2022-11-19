@@ -15,9 +15,9 @@ class ClientService {
     console.log('   Client Service Success')
   }
 
-  clientOpen(playerName: string, scene: string, character: string) {
-    console.log('create client', { playerName, scene, character })
-    return this.connectors!.getInworldConnector()!.clientOpen({ playerName, scene, character });
+  clientOpen(playerName: string, uid: number, scene: string, character: string) {
+    console.log('create client', { playerName, uid, scene, character })
+    return this.connectors!.getInworldConnector()!.clientOpen({ playerName, uid, scene, character });
     return
   }
 

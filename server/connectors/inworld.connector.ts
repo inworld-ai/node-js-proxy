@@ -66,12 +66,13 @@ class InworldConnector {
   }
 
   async clientOpen( configuration: {
-    scene: string;
     playerName: string;
+    uid: number;
+    scene: string;
     character: string;
   } ) {
-    
-    this.queue = [];
+
+    this.queue = this.queue.filter( event => event.uid != configuration.uid )
 
     const client = new Client({
       config: {
@@ -86,9 +87,11 @@ class InworldConnector {
       onMessage: onMessage
     });
     this.client = client;
+    // console.log('client', this.client)
 
     const connection = client.getConnection();
     this.connection = connection;
+    // console.log('con', this.connection)
 
     const characters = await connection.getCharacters();
     const character = characters.find(character => character.getId() === configuration.character);
@@ -111,6 +114,14 @@ class InworldConnector {
           parent.queue.push({ type: 'disconnected' });
           break;
 
+        case 7: // Unauthorized Access
+          // Handle this as a crashing issue.
+          break;
+
+        case 8: // No account credits
+          // Handle this as a crashing issue.
+          break;
+
         case 9: // Session Expired
           console.error('❗ Inworld session expired ', err.details);
           parent.queue.push({ type: 'disconnected' });
@@ -119,6 +130,14 @@ class InworldConnector {
         case 10: // Conversation paused due to inactivity
           console.error('❗ Inworld paused error ', err.details);
           parent.queue.push({ type: 'disconnected' });
+          break;
+
+        case 14: // UNAVAILABLE: No connection established
+          // Handle this as a non-crashing
+          break;
+
+        case 16: // Unauthenticated
+          // Handle this as a crashing issue.
           break;
 
         default:
@@ -134,30 +153,37 @@ class InworldConnector {
     function onMessage(packet: InworldPacket) {
 
       const { packetId } = packet;
-      const i = packetId.packetId;
+      const p = packetId.packetId;
+      const i = packetId.interactionId;
       const u = packetId.utteranceId;
 
       // TEXT
       if (packet.isText()) {
         const textEvent = packet.text;
-        // console.log('Text', textEvent.text)
+        // console.log('Text', packet)
         if (packet.routing.source.isPlayer) {
           if (textEvent.final) {
             parent.queue.push({
               type: 'text',
+              uid: configuration.uid,
               final: textEvent.final,
-              text: textEvent.text
+              text: textEvent.text,
+              i,
+              u,
+              p
             })
           }
         } else {
           parent.queue.push({
             type: 'text',
+            uid: configuration.uid,
             source: renderActor(packet.routing.source),
             target: renderActor(packet.routing.target),
             final: textEvent.final,
             text: textEvent.text,
-            i: i,
-            u: u
+            i,
+            u,
+            p
           })
         }
       }
@@ -166,6 +192,7 @@ class InworldConnector {
       if (packet.isEmotion()) {
         parent.queue.push({
           type: 'emotion',
+          uid: configuration.uid,
           joy: packet.emotions.joy,
           fear: packet.emotions.fear,
           trust: packet.emotions.trust,
@@ -179,6 +206,7 @@ class InworldConnector {
       if (packet.isCustom()) {
         parent.queue.push({
           type: 'custom',
+          uid: configuration.uid,
           name: packet.custom.name
         })
       }
