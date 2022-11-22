@@ -11,40 +11,27 @@ class SceneService {
     console.log('   Scene Service Success')
   }
 
-  async getCharacter() {
-    const character = await this.connectors!.getInworldConnector()!.getConnection()!.getCurrentCharacter();
-    return character
-  }
+  // async setCharacter(uid: number, character: string, id: string) {
+  //   const characters = await this.connectors!.getInworldConnector()!.getConnection()!.getCharacters();
+  //   const character = characters.find(character => character.getId() === id);
+  //   // await this.connectors!.getInworldConnector()!.getConnection()!.setCharacter(character)
+  //   return character || null;
+  // }
+  //
+  // async getScene(uid: number, character: string) {
+  //   const scene = this.connectors!.getInworldConnector()!.getScene();
+  //   return scene
+  // }
+  //
+  // async getSceneCharacters(uid: number, scene: string) {
+  //   const characters = await this.connectors!.getInworldConnector()!.getConnection()!.getCharacters();
+  //   return characters;
+  // }
+  //
+  // async setScene(uid: number, character: string, scene: string) {
+  //   return this.connectors!.getInworldConnector()!.setScene(scene );
+  // }
 
-  async setCharacter(id: string) {
-    const characters = await this.connectors!.getInworldConnector()!.getConnection()!.getCharacters();
-    const character = characters.find(character => character.getId() === id);
-    // await this.connectors!.getInworldConnector()!.getConnection()!.setCharacter(character)
-    return character || null;
-  }
-
-  async getCharacters() {
-    const characters = await this.connectors!.getInworldConnector()!.getConnection()!.getCharacters();
-    return characters;
-  }
-
-  async getScene() {
-    const scene = this.connectors!.getInworldConnector()!.getScene();
-    return scene
-  }
-
-  async setScene(id: string) {
-    return this.connectors!.getInworldConnector()!.setScene(id);
-  }
-
-  async getEvents() {
-    const events = this.connectors!.getInworldConnector()!.flushQueue();
-    return events;
-  }
-
-  async sendText(text: string) {
-    await this.connectors!.getInworldConnector()!.getConnection()!.sendText(text);
-  }
 
 }
 

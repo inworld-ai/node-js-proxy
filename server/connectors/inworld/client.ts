@@ -12,11 +12,17 @@ class Client {
   private client: InworldClient;
   private connection: InworldConnectionService | null = null;
 
+  private character: string;
+  private scene: string;
+  private uid: number;
+
   constructor(props: {
     config?: ClientConfiguration;
     key: string;
     secret: string;
+    uid: number;
     scene: string;
+    character: string;
     playerName?: string | undefined;
     onDisconnect?: () => void | undefined;
     onError?: (err: ServiceError) => void | undefined;
@@ -25,6 +31,9 @@ class Client {
 
     this.client = new InworldClient();
     this.client.setApiKey({ key: props.key, secret: props.secret });
+    this.uid = props.uid;
+    this.scene = props.scene;
+    this.character = props.character;
 
     if (props.config) this.client.setConfiguration(props.config);
     if (props.scene) this.client.setScene(props.scene);
@@ -47,6 +56,18 @@ class Client {
   getConnection() {
     this.connection = this.client.build();
     return this.connection;
+  }
+
+  getUID() {
+    return this.uid;
+  }
+
+  getCharacter() {
+    return this.character;
+  }
+
+  getScene() {
+    return this.scene;
   }
 
 }

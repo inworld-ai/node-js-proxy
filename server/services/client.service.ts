@@ -15,38 +15,68 @@ class ClientService {
     console.log('   Client Service Success')
   }
 
-  clientOpen(playerName: string, uid: number, scene: string, character: string) {
-    console.log('create client', { playerName, uid, scene, character })
-    return this.connectors!.getInworldConnector()!.clientOpen({ playerName, uid, scene, character });
+
+  async clientClose(uid: number, sceneId: string, characterId: string) {
+    const client = this.connectors!.getInworldConnector()!.getClient(uid, sceneId, characterId);
+    if (client)
+      return client.closeConnection();
+    else return false;
   }
 
-  clientClose() {
-    if (this.connectors!.getInworldConnector()!.getClient())
-    return this.connectors!.getInworldConnector()!.getClient()!.closeConnection();
+  async clientOpen(uid: number, sceneId: string, characterId: string, playerName: string) {
+    console.log('create client', { uid, sceneId, characterId, playerName })
+    return this.connectors!.getInworldConnector()!.clientOpen({ uid, sceneId, characterId, playerName });
   }
 
-  getToken() {
-    const client = new InworldClient().setApiKey({
-      key: process.env.INWORLD_KEY!,
-      secret: process.env.INWORLD_SECRET!,
-    });
-    return client.generateSessionToken();
+  async getCharacters(uid: number, sceneId: string) {
+    // const character = await this.connectors!.getInworldConnector()!.getConnection()!.getCurrentCharacter();
+    // return character
+    return false;
   }
 
-  getIsActive() {
-    if (this.connectors!.getInworldConnector()!.getClient())
-    return this.connectors!.getInworldConnector()!.getClient()!.getConnection()!.isActive();
+  async getEvents() {
+    return this.connectors!.getInworldConnector()!.flushQueue();
   }
 
-  setConfiguration(configuration: Object) {
-    if (this.connectors!.getInworldConnector()!.getClient())
-    return this.connectors!.getInworldConnector()!.getClient()!.getClient().setConfiguration(configuration);
+  async getStatus(uid: number, sceneId: string, characterId: string) {
+    if (this.connectors!.getInworldConnector()!.getClient(uid, sceneId, characterId))
+      return this.connectors!.getInworldConnector()!.getStatus(uid, sceneId, characterId);
+    else return false;
   }
 
-  setUsername(name: string) {
-    if (this.connectors!.getInworldConnector()!.getClient())
-    return this.connectors!.getInworldConnector()!.getClient()!.getClient().setUser({ fullName: name });
+  async getToken(uid: number, sceneId: string, characterId: string) {
+    // TODO Integrate this with existing clients
+    // const client = new InworldClient().setApiKey({
+    //   key: process.env.INWORLD_KEY!,
+    //   secret: process.env.INWORLD_SECRET!,
+    // });
+    // return client.generateSessionToken();
   }
+
+  async sendMessage(uid: number, sceneId: string, characterId: string, message: string) {
+    if (this.connectors!.getInworldConnector()!.getConnection(uid, sceneId, characterId)) {
+      const connection = this.connectors!.getInworldConnector()!.getConnection(uid, sceneId, characterId);
+      if (connection) {
+        await connection.sendText(message);
+        return true;
+      }
+    }
+    else return false;
+  }
+
+  // async setConfiguration(uid: number, sceneId: string, characterId: string, configuration: Object) {
+  //
+  //   if (this.connectors!.getInworldConnector()!.getClient())
+  //   return this.connectors!.getInworldConnector()!.getClient()!.getClient().setConfiguration(configuration);
+  //
+  // }
+  //
+  // async setUsername(uid: number, sceneId: string, characterId: string, name: string) {
+  //
+  //   if (this.connectors!.getInworldConnector()!.getClient())
+  //   return this.connectors!.getInworldConnector()!.getClient()!.getClient().setUser({ fullName: name });
+  //
+  // }
 
 }
 

@@ -11,11 +11,12 @@ class InworldConnector {
 
   private client: Client | null = null;
   private clients: Client[] = [];
-  private connection: InworldConnectionService | null = null;
+  // private connection: InworldConnectionService | null = null;
   private queue: any[];
 
   private key: string = process.env.INWORLD_KEY!
   private secret: string = process.env.INWORLD_SECRET!
+  // Default scene to load for initial connection test to Inworld
   private scene: string = process.env.INWORLD_SCENE!
 
   constructor() {
@@ -36,7 +37,9 @@ class InworldConnector {
         },
         key: this.key!,
         secret: this.secret!,
+        uid: 0,
         scene: this.scene!,
+        character: '',
         onError: onFail,
         onMessage: onSuccess
       });
@@ -66,14 +69,15 @@ class InworldConnector {
 
   }
 
-  async clientOpen( configuration: {
-    playerName: string;
+  async clientOpen( configuration : {
     uid: number;
-    scene: string;
-    character: string;
-  } ) {
+    sceneId: string;
+    characterId: string;
+    playerName: string;
+  }) {
 
-    this.queue = this.queue.filter( event => event.uid != configuration.uid )
+    // TODO refactor queue clean up to remove events with same uid, sceneId and characterId
+    // this.queue = this.queue.filter( event => event.uid != configuration.uid )
 
     const client = new Client({
       config: {
@@ -81,7 +85,9 @@ class InworldConnector {
       },
       key: this.key,
       secret: this.secret,
-      scene: configuration.scene,
+      uid: configuration.uid,
+      scene: configuration.sceneId,
+      character: configuration.characterId,
       playerName: configuration.playerName,
       onDisconnect: onDisconnect,
       onError: onError,
@@ -91,17 +97,20 @@ class InworldConnector {
     // console.log('client', this.client)
 
     const connection = client.getConnection();
-    this.connection = connection;
+    // this.connection = connection;
     // console.log('con', this.connection)
 
     const characters = await connection.getCharacters();
-    const character = characters.find(character => character.getId() === configuration.character);
+    const character = characters.find(character => character.getId() === configuration.characterId);
     if (character) connection.setCurrentCharacter(character);
 
-    this.connection.sendText("Hello");
+    connection.sendText("Hello");
 
     var parent = this;
 
+    // TODO Return false if unable to create client
+    return true
+    
     function onDisconnect() {
       console.info('❗ Inworld disconnected ' + Date.now());
     }
@@ -220,26 +229,48 @@ class InworldConnector {
 
   }
 
-  getScene() {
-    return this.scene
-  }
-
-  setScene(id : string) {
-    this.scene = id
-    return this.client!.getClient().setScene(this.scene).build()
-  }
-
   flushQueue() {
     return this.queue.splice(0, this.queue.length);
   }
 
-  getClient() {
-    return this.client;
+  getClient(uid: number, sceneId: string, characterId: string) {
+    const client = this.clients.find(
+      client => client.getUID() == uid
+      && client.getScene() == sceneId
+      && client.getCharacter() == characterId
+    );
+    if (client) return client;
+    else return false;
   }
 
-  getConnection() {
-    return this.connection;
+  getConnection(uid: number, sceneId: string, characterId: string) {
+    const client = this.clients.find(
+      client => client.getUID() == uid
+      && client.getScene() == sceneId
+      && client.getCharacter() == characterId
+    );
+    if (client) return client.getConnection();
+    else return false;
   }
+
+  getStatus(uid: number, sceneId: string, characterId: string) {
+    // TODO
+    return false;
+  }
+
+  // getScene(uid: number, character: string) {
+  //   const client = this.clients.find(
+  //     client => client.getUID() == uid && client.getCharacter() == character
+  //   );
+  //   return client.getScene();
+  // }
+  //
+  // setScene(uid: number, character: string, id: string) {
+  //   const client = this.clients.find(
+  //     client => client.getUID() == uid && client.getCharacter() == character
+  //   );
+  //   return client.getClient().setScene(id).build()
+  // }
 
 }
 
