@@ -10,6 +10,7 @@ import { getBehavior, getStrength, renderActor, renderEventRouting } from './inw
 class InworldConnector {
 
   private client: Client | null = null;
+  private clients: Client[] = [];
   private connection: InworldConnectionService | null = null;
   private queue: any[];
 
@@ -86,7 +87,7 @@ class InworldConnector {
       onError: onError,
       onMessage: onMessage
     });
-    this.client = client;
+    this.clients.push(client);
     // console.log('client', this.client)
 
     const connection = client.getConnection();
