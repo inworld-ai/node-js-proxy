@@ -18,10 +18,10 @@ class ClientService {
   clientOpen(playerName: string, uid: number, scene: string, character: string) {
     console.log('create client', { playerName, uid, scene, character })
     return this.connectors!.getInworldConnector()!.clientOpen({ playerName, uid, scene, character });
-    return
   }
 
   clientClose() {
+    if (this.connectors!.getInworldConnector()!.getClient())
     return this.connectors!.getInworldConnector()!.getClient()!.closeConnection();
   }
 
@@ -34,14 +34,17 @@ class ClientService {
   }
 
   getIsActive() {
+    if (this.connectors!.getInworldConnector()!.getClient())
     return this.connectors!.getInworldConnector()!.getClient()!.getConnection()!.isActive();
   }
 
   setConfiguration(configuration: Object) {
+    if (this.connectors!.getInworldConnector()!.getClient())
     return this.connectors!.getInworldConnector()!.getClient()!.getClient().setConfiguration(configuration);
   }
 
   setUsername(name: string) {
+    if (this.connectors!.getInworldConnector()!.getClient())
     return this.connectors!.getInworldConnector()!.getClient()!.getClient().setUser({ fullName: name });
   }
 

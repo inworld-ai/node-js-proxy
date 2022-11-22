@@ -114,6 +114,10 @@ class InworldConnector {
           parent.queue.push({ type: 'disconnected' });
           break;
 
+        case 3: // Error: 3 INVALID_ARGUMENT: Failed to interact with brain: SpeechEvent malformed: text is missing.
+          // Handle this as a non-crashing
+          break;
+
         case 7: // Unauthorized Access
           // Handle this as a crashing issue.
           break;
