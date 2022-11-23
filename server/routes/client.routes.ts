@@ -12,6 +12,7 @@ class ClientRoutes {
       const {
         body: { uid, sceneId, characterId }
       } = req;
+      console.log('/client/close', uid, sceneId, characterId)
       const response = await app.getServices()!.getClientService()!.clientClose(uid, sceneId, characterId);
       if(response) {
         res.sendStatus(200);
@@ -48,6 +49,7 @@ class ClientRoutes {
       const {
         body: { uid, sceneId, characterId, message }
       } = req;
+      console.log(uid, sceneId, characterId, message)
       const response = await app.getServices()!.getClientService()!.sendMessage(uid, sceneId, characterId, message);
       if (response)
         res.sendStatus(202);

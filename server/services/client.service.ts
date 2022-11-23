@@ -18,8 +18,10 @@ class ClientService {
 
   async clientClose(uid: number, sceneId: string, characterId: string) {
     const client = this.connectors!.getInworldConnector()!.getClient(uid, sceneId, characterId);
-    if (client)
-      return client.closeConnection();
+    if (client) {
+      client.closeConnection();
+      return true;
+    }
     else return false;
   }
 
