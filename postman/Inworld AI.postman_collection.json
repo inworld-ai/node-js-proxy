@@ -1,39 +1,19 @@
 {
 	"info": {
-		"_postman_id": "bbc2a703-8103-4351-a618-93dbdc640aaf",
+		"_postman_id": "a2eb0d7e-5b58-4920-ac5c-b79e0c6077db",
 		"name": "Inworld AI",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "8476904"
 	},
 	"item": [
 		{
-			"name": "Get Current Character",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:3000/scene/character",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"scene",
-						"character"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Set Current Character",
+			"name": "Create Connection",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"id\":\"workspaces/default-otlidj4fiivmusuoatwm4a/characters/ron_carroll\"}",
+					"raw": "{ \r\n    \"uid\":\"0\", \r\n    \"sceneId\": \"workspaces/default-yww-nrg1ejv6ab3q5vk0nw/scenes/the_caterpillars_mushroom\", \r\n    \"characterId\": \"workspaces/default-yww-nrg1ejv6ab3q5vk0nw/characters/the_caterpillar\", \r\n    \"playerName\": \"Quintarus\" \r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -41,54 +21,15 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/scene/character",
+					"raw": "http://localhost:3000/client/open",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
-						"scene",
-						"character"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Characters",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:3000/scene/characters",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"scene",
-						"characters"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Scene",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:3000/scene",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"scene"
+						"client",
+						"open"
 					]
 				}
 			},
@@ -97,8 +38,17 @@
 		{
 			"name": "Close Connection",
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"uid\":\"\",\r\n    \"sceneId\": \"\",\r\n    \"characterId\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "http://localhost:3000/client/close",
 					"protocol": "http",
@@ -115,13 +65,13 @@
 			"response": []
 		},
 		{
-			"name": "Set Scene Mushroom",
+			"name": "Send Message",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"id\":\"workspaces/default-otlidj4fiivmusuoatwm4a/scenes/the_caterpillars_mushroom\"}",
+					"raw": "{\r\n    \"uid\":\"\",\r\n    \"sceneId\": \"\",\r\n    \"characterId\": \"\",\r\n    \"message\": \"\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -129,190 +79,15 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/scene",
+					"raw": "http://localhost:3000/client/message",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
-						"scene"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Set Scene Ministry of Sound",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"id\":\"workspaces/default-otlidj4fiivmusuoatwm4a/scenes/ministry_of_sound\"}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:3000/scene",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"scene"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Set Scene Cats Tree",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"id\":\"workspaces/default-otlidj4fiivmusuoatwm4a/scenes/the_cheshire_cats_tree\"}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:3000/scene",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"scene"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Set Scene Hatters House",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"id\":\"workspaces/default-otlidj4fiivmusuoatwm4a/scenes/the_mad_hatters_house\"}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:3000/scene",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"scene"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Set Scene Queens Castle",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"id\":\"workspaces/default-otlidj4fiivmusuoatwm4a/scenes/the_queens_castle\"}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:3000/scene",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"scene"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Set Scene Rabbit Shop",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"id\":\"workspaces/default-otlidj4fiivmusuoatwm4a/scenes/the_white_rabbits_shop\"}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:3000/scene",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"scene"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Send Text",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"message\":\"What is your name?\"}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:3000/scene/sendtext",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"scene",
-						"sendtext"
-					],
-					"query": [
-						{
-							"key": "msg",
-							"value": "Hello",
-							"disabled": true
-						}
+						"client",
+						"message"
 					]
 				}
 			},
@@ -324,84 +99,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/scene/events",
+					"raw": "http://localhost:3000/events",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
-						"scene",
 						"events"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Status",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:3000/client/status",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"client",
-						"status"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Token",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:3000/client/token",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"client",
-						"token"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Set Username",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"name\":\"Bob Jones\"}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:3000/client/username",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"client",
-						"username"
 					]
 				}
 			},
