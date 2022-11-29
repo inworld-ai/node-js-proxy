@@ -54,7 +54,7 @@ class Client {
   }
 
   getConnection() {
-    if(!this.connection)
+    if (!this.connection)
       this.connection = this.client.build();
     return this.connection;
   }
