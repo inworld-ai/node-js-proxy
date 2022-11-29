@@ -110,7 +110,7 @@ class InworldConnector {
 
     // TODO Return false if unable to create client
     return true
-    
+
     function onDisconnect() {
       console.info('❗ Inworld disconnected ' + Date.now());
     }
@@ -174,7 +174,7 @@ class InworldConnector {
       // TEXT
       if (packet.isText()) {
         const textEvent = packet.text;
-        // console.log('Text', packet)
+        console.log('Text', packet)
         if (packet.routing.source.isPlayer) {
           if (textEvent.final) {
             parent.queue.push({
