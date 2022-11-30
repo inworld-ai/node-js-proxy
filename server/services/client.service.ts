@@ -16,7 +16,7 @@ class ClientService {
   }
 
 
-  async clientClose(uid: number, sceneId: string, characterId: string) {
+  async clientClose(uid: string, sceneId: string, characterId: string) {
     const client = this.connectors!.getInworldConnector()!.getClient(uid, sceneId, characterId);
     if (client) {
       client.closeConnection();
@@ -24,7 +24,7 @@ class ClientService {
     } else return false;
   }
 
-  async clientOpen(uid: number, sceneId: string, characterId: string, playerName: string) {
+  async clientOpen(uid: string, sceneId: string, characterId: string, playerName: string) {
     console.log('create client', { uid, sceneId, characterId, playerName })
     const client = this.connectors!.getInworldConnector()!.getClient(uid, sceneId, characterId);
     if (!client)
@@ -42,13 +42,13 @@ class ClientService {
     return this.connectors!.getInworldConnector()!.flushQueue();
   }
 
-  async getStatus(uid: number, sceneId: string, characterId: string) {
+  async getStatus(uid: string, sceneId: string, characterId: string) {
     if (this.connectors!.getInworldConnector()!.getClient(uid, sceneId, characterId))
       return this.connectors!.getInworldConnector()!.getStatus(uid, sceneId, characterId);
     else return false;
   }
 
-  async getToken(uid: number, sceneId: string, characterId: string) {
+  async getToken(uid: string, sceneId: string, characterId: string) {
     // TODO Integrate this with existing clients
     // const client = new InworldClient().setApiKey({
     //   key: process.env.INWORLD_KEY!,
@@ -57,7 +57,7 @@ class ClientService {
     // return client.generateSessionToken();
   }
 
-  async sendMessage(uid: number, sceneId: string, characterId: string, message: string) {
+  async sendMessage(uid: string, sceneId: string, characterId: string, message: string) {
     if (this.connectors!.getInworldConnector()!.getConnection(uid, sceneId, characterId)) {
       const connection = this.connectors!.getInworldConnector()!.getConnection(uid, sceneId, characterId);
       if (connection) {
@@ -68,14 +68,14 @@ class ClientService {
     else return false;
   }
 
-  // async setConfiguration(uid: number, sceneId: string, characterId: string, configuration: Object) {
+  // async setConfiguration(uid: string, sceneId: string, characterId: string, configuration: Object) {
   //
   //   if (this.connectors!.getInworldConnector()!.getClient())
   //   return this.connectors!.getInworldConnector()!.getClient()!.getClient().setConfiguration(configuration);
   //
   // }
   //
-  // async setUsername(uid: number, sceneId: string, characterId: string, name: string) {
+  // async setUsername(uid: string, sceneId: string, characterId: string, name: string) {
   //
   //   if (this.connectors!.getInworldConnector()!.getClient())
   //   return this.connectors!.getInworldConnector()!.getClient()!.getClient().setUser({ fullName: name });

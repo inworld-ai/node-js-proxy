@@ -14,13 +14,13 @@ class Client {
 
   private character: string;
   private scene: string;
-  private uid: number;
+  private uid: string;
 
   constructor(props: {
     config?: ClientConfiguration;
     key: string;
     secret: string;
-    uid: number;
+    uid: string;
     scene: string;
     character: string;
     playerName?: string | undefined;

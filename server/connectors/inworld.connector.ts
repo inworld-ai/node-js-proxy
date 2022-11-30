@@ -37,7 +37,7 @@ class InworldConnector {
         },
         key: this.key!,
         secret: this.secret!,
-        uid: 0,
+        uid: '0',
         scene: this.scene!,
         character: '',
         onError: onFail,
@@ -70,7 +70,7 @@ class InworldConnector {
   }
 
   async clientOpen( configuration : {
-    uid: number;
+    uid: string;
     sceneId: string;
     characterId: string;
     playerName: string;
@@ -118,7 +118,7 @@ class InworldConnector {
       switch (err.code) {
 
         case 1: // Conversation cancelled
-          console.error('❗ Inworld cancelled error ', err.details);
+          console.error('❗ Inworld cancelled', err.details);
           parent.queue.push({ type: 'disconnected' });
           break;
 
@@ -140,12 +140,7 @@ class InworldConnector {
           break;
 
         case 10: // Conversation paused due to inactivity
-          console.error('❗ Inworld paused error ', err.details);
-          console.log(
-            client.getUID(),
-            client.getScene(),
-            client.getCharacter()
-          )
+          console.error('❗ Inworld paused', err.details);
           parent.queue.push({ type: 'disconnected' });
           break;
 
@@ -236,7 +231,7 @@ class InworldConnector {
     return this.queue.splice(0, this.queue.length);
   }
 
-  getClient(uid: number, sceneId: string, characterId: string) {
+  getClient(uid: string, sceneId: string, characterId: string) {
     const client = this.clients.find(
       client => client.getUID() == uid
       && client.getScene() == sceneId
@@ -246,7 +241,7 @@ class InworldConnector {
     else return false;
   }
 
-  getConnection(uid: number, sceneId: string, characterId: string) {
+  getConnection(uid: string, sceneId: string, characterId: string) {
     const client = this.clients.find(
       client => client.getUID() == uid
       && client.getScene() == sceneId
@@ -256,7 +251,7 @@ class InworldConnector {
     else return false;
   }
 
-  getStatus(uid: number, sceneId: string, characterId: string) {
+  getStatus(uid: string, sceneId: string, characterId: string) {
     // TODO
     return false;
   }
