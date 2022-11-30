@@ -94,11 +94,8 @@ class InworldConnector {
       onMessage: onMessage
     });
     this.clients.push(client);
-    // console.log('client', this.client)
 
     const connection = client.getConnection();
-    // this.connection = connection;
-    // console.log('con', this.connection)
 
     const characters = await connection.getCharacters();
     const character = characters.find(character => character.getId() === configuration.characterId);
@@ -113,6 +110,7 @@ class InworldConnector {
 
     function onDisconnect() {
       console.info('❗ Inworld disconnected ' + Date.now());
+      parent.clients.splice(parent.clients.indexOf(client), 1);
     }
 
     function onError(err: ServiceError) {
@@ -143,6 +141,11 @@ class InworldConnector {
 
         case 10: // Conversation paused due to inactivity
           console.error('❗ Inworld paused error ', err.details);
+          console.log(
+            client.getUID(),
+            client.getScene(),
+            client.getCharacter()
+          )
           parent.queue.push({ type: 'disconnected' });
           break;
 
@@ -174,7 +177,7 @@ class InworldConnector {
       // TEXT
       if (packet.isText()) {
         const textEvent = packet.text;
-        console.log('Text', packet)
+        // console.log('Text', packet)
         if (packet.routing.source.isPlayer) {
           if (textEvent.final) {
             parent.queue.push({

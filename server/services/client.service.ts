@@ -21,13 +21,15 @@ class ClientService {
     if (client) {
       client.closeConnection();
       return true;
-    }
-    else return false;
+    } else return false;
   }
 
   async clientOpen(uid: number, sceneId: string, characterId: string, playerName: string) {
     console.log('create client', { uid, sceneId, characterId, playerName })
-    return this.connectors!.getInworldConnector()!.clientOpen({ uid, sceneId, characterId, playerName });
+    const client = this.connectors!.getInworldConnector()!.getClient(uid, sceneId, characterId);
+    if (!client)
+      return this.connectors!.getInworldConnector()!.clientOpen({ uid, sceneId, characterId, playerName });
+    else return true;
   }
 
   async getCharacters(uid: number, sceneId: string) {
