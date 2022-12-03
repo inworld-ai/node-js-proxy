@@ -7,9 +7,10 @@ export declare class ClientService {
   constructor(connectors: Connectors);
   async clientClose(uid: string, characterId: string)
   async clientOpen(playerName: string, uid: number, sceneId: string, characterId: string);
-  async getCharacters(uid: string, sceneId: string);
+  async getCharacters(uid: string, sceneId: string, characterId: string);
   async getEvents();
   async getStatus(uid: string, sceneId: string, characterId: string);
   async getToken();
+  async sendCustom(uid: string, sceneId: string, characterId: string, customId: string);
   async sendMessage(uid: string, sceneId: string, characterId: string, text: string);
 }

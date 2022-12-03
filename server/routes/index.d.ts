@@ -6,6 +6,5 @@ import SceneRoutes from './scene.routes';
 
 export declare class Routes {
   private clientRoutes: ClientRoutes;
-  private sceneRoutes: SceneRoutes;
   constructor(app: App, server: Application);
 }

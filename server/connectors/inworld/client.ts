@@ -14,6 +14,7 @@ class Client {
 
   private character: string;
   private scene: string;
+  // private sessionToken: string;
   private uid: string;
 
   constructor(props: {
@@ -34,6 +35,8 @@ class Client {
     this.uid = props.uid;
     this.scene = props.scene;
     this.character = props.character;
+
+    // this.sessionToken = this.client.generateSessionToken();
 
     if (props.config) this.client.setConfiguration(props.config);
     if (props.scene) this.client.setScene(props.scene);
@@ -69,6 +72,13 @@ class Client {
 
   getScene() {
     return this.scene;
+  }
+
+  async getToken() {
+
+    // console.log('token', await this.client.generateSessionToken())
+    return await this.client.generateSessionToken();
+    // return this.sessionToken;
   }
 
 }

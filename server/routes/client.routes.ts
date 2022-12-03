@@ -33,14 +33,24 @@ class ClientRoutes {
         res.sendStatus(404);
     });
 
-    // TODO Make sure only one instance is returned
     router.post('/client/characters', async (req, res) => {
       const {
-        body: { uid, sceneId }
+        body: { uid, sceneId, characterId }
       } = req;
-      const response = await app.getServices()!.getClientService()!.getCharacters(uid, sceneId);
+      const response = await app.getServices()!.getClientService()!.getCharacters(uid, sceneId, characterId);
       if (response)
         res.json(response);
+      else
+        res.sendStatus(404);
+    });
+
+    router.post('/client/custom', async (req, res) => {
+      const {
+        body: { uid, sceneId, characterId, customId }
+      } = req;
+      const response = await app.getServices()!.getClientService()!.sendCustom(uid, sceneId, characterId, customId);
+      if (response)
+        res.sendStatus(202);
       else
         res.sendStatus(404);
     });
@@ -68,42 +78,10 @@ class ClientRoutes {
         res.sendStatus(404);
     });
 
-    // router.post('/client/token', async (req, res) => {
-    //   const {
-    //     body: { uid, sceneId, characterId }
-    //   } = req;
-    //   const response = await app.getServices()!.getClientService()!.getToken(uid, sceneId, characterId);
-    //   if (response)
-    //     res.json(response);
-    //   else
-    //     res.sendStatus(404);
-    // });
-
     router.get('/events', async (req, res) => {
       const events = await app.getServices()!.getClientService()!.getEvents();
       res.json(events);
     });
-
-
-    // TODO Review if this is still feasible
-    // router.post('/client/username', async (req, res) => {
-    //   const {
-    //     body: { uid, sceneId, name }
-    //   } = req;
-    //
-    //   const character = await app.getServices()!.getClientService()!.setUsername(name);
-    //
-    //   res.json(character);
-    // });
-
-    // TODO Review if this is still feasible
-    // router.post('/client/configuration', async (req, res) => {
-    //   const {
-    //     body: { configuration }
-    //   } = req;
-    //   const character = await app.getServices()!.getClientService()!.setConfiguration(configuration);
-    //   res.json(character);
-    // });
 
     server.use(router);
 

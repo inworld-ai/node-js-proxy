@@ -2,12 +2,10 @@ import { Application, Router } from "express";
 
 import App from '../app';
 import ClientRoutes from './client.routes';
-import SceneRoutes from './scene.routes';
 
 class Routes {
 
   private clientRoutes: ClientRoutes | null = null;
-  private sceneRoutes: SceneRoutes | null = null;
 
   constructor(app: App, server: Application) {
 
@@ -24,7 +22,6 @@ class Routes {
     server.use(router);
 
     this.clientRoutes = new ClientRoutes(app, server);
-    this.sceneRoutes = new SceneRoutes(app, server);
 
     console.log('✔️ Routes Success');
 

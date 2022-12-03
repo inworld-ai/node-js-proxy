@@ -11,11 +11,11 @@ class InworldConnector {
 
   private client: Client | null = null;
   private clients: Client[] = [];
-  // private connection: InworldConnectionService | null = null;
   private queue: any[];
 
   private key: string = process.env.INWORLD_KEY!
   private secret: string = process.env.INWORLD_SECRET!
+
   // Default scene to load for initial connection test to Inworld
   private scene: string = process.env.INWORLD_SCENE!
 
@@ -95,6 +95,8 @@ class InworldConnector {
     });
     this.clients.push(client);
 
+    console.log('client', await client.getToken());
+
     const connection = client.getConnection();
 
     const characters = await connection.getCharacters();
@@ -169,6 +171,8 @@ class InworldConnector {
       const i = packetId.interactionId;
       const u = packetId.utteranceId;
 
+      console.log('Packet', packet)
+
       // TEXT
       if (packet.isText()) {
         const textEvent = packet.text;
@@ -216,6 +220,7 @@ class InworldConnector {
 
       // CUSTOM
       if (packet.isCustom()) {
+        console.log('Custom', packet)
         parent.queue.push({
           type: 'custom',
           uid: configuration.uid,
@@ -255,20 +260,6 @@ class InworldConnector {
     // TODO
     return false;
   }
-
-  // getScene(uid: number, character: string) {
-  //   const client = this.clients.find(
-  //     client => client.getUID() == uid && client.getCharacter() == character
-  //   );
-  //   return client.getScene();
-  // }
-  //
-  // setScene(uid: number, character: string, id: string) {
-  //   const client = this.clients.find(
-  //     client => client.getUID() == uid && client.getCharacter() == character
-  //   );
-  //   return client.getClient().setScene(id).build()
-  // }
 
 }
 
