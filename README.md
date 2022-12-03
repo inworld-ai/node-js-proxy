@@ -24,14 +24,25 @@ Fill in the .env variables with the Inworld.ai account information.
 
 
 #### Running
-+ Development
+Development
 ```
 npm run dev
 ```
 
-+ Production
+Production
 ```
 npm start
+```
+
+#### Linux Server Installation
+
+To run the server as a stable daemon that will restart on boot. Use PM2 from the project directory.
+```
+sudo npm install -g pm2
+pm2 startup
+pm2 save
+pm2 start pm2.sh --name inworld
+pm2 save
 ```
 
 #### RESTful Routes
