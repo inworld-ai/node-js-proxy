@@ -10,10 +10,10 @@ class ClientRoutes {
 
     router.post('/client/close', async (req, res) => {
       const {
-        body: { uid, sceneId, characterId }
+        body: { sessionId }
       } = req;
-      console.log('/client/close', uid, sceneId, characterId)
-      const response = await app.getServices()!.getClientService()!.clientClose(uid, sceneId, characterId);
+      console.log('/client/close', sessionId)
+      const response = await app.getServices()!.getClientService()!.clientClose(sessionId);
       if(response) {
         res.sendStatus(200);
       } else {
@@ -23,21 +23,21 @@ class ClientRoutes {
 
     router.post('/client/open', async (req, res) => {
       const {
-        body: { uid, sceneId, characterId, playerName }
+        body: { uid, sceneId, characterId, playerName, serverId }
       } = req;
-      console.log('/client/open', uid, sceneId, characterId, playerName)
-      const response = await app.getServices()!.getClientService()!.clientOpen(uid, sceneId, characterId, playerName);
+      console.log('/client/open', uid, sceneId, characterId, playerName, serverId)
+      const response = await app.getServices()!.getClientService()!.clientOpen(uid, sceneId, characterId, playerName, serverId);
       if (response)
-        res.sendStatus(201);
+        res.json(response);
       else
-        res.sendStatus(404);
+        res.sendStatus(409);
     });
 
     router.post('/client/characters', async (req, res) => {
       const {
-        body: { uid, sceneId, characterId }
+        body: { sessionId }
       } = req;
-      const response = await app.getServices()!.getClientService()!.getCharacters(uid, sceneId, characterId);
+      const response = await app.getServices()!.getClientService()!.getCharacters(sessionId);
       if (response)
         res.json(response);
       else
@@ -46,9 +46,9 @@ class ClientRoutes {
 
     router.post('/client/custom', async (req, res) => {
       const {
-        body: { uid, sceneId, characterId, customId }
+        body: { sessionId, customId }
       } = req;
-      const response = await app.getServices()!.getClientService()!.sendCustom(uid, sceneId, characterId, customId);
+      const response = await app.getServices()!.getClientService()!.sendCustom(sessionId, customId);
       if (response)
         res.sendStatus(202);
       else
@@ -57,10 +57,10 @@ class ClientRoutes {
 
     router.post('/client/message', async (req, res) => {
       const {
-        body: { uid, sceneId, characterId, message }
+        body: { sessionId, message }
       } = req;
-      console.log(uid, sceneId, characterId, message)
-      const response = await app.getServices()!.getClientService()!.sendMessage(uid, sceneId, characterId, message);
+      console.log(sessionId, message)
+      const response = await app.getServices()!.getClientService()!.sendMessage(sessionId, message);
       if (response)
         res.sendStatus(202);
       else
@@ -69,9 +69,9 @@ class ClientRoutes {
 
     router.post('/client/status', async (req, res) => {
       const {
-        body: { uid, sceneId, characterId }
+        body: { sessionId }
       } = req;
-      const response = await app.getServices()!.getClientService()!.getStatus(uid, sceneId, characterId);
+      const response = await app.getServices()!.getClientService()!.getStatus(sessionId);
       if (response)
         res.json(response);
       else
@@ -80,6 +80,14 @@ class ClientRoutes {
 
     router.get('/events', async (req, res) => {
       const events = await app.getServices()!.getClientService()!.getEvents();
+      res.json(events);
+    });
+
+    router.get('/events/:serverId', async (req, res) => {
+      const {
+        params: { serverId }
+      } = req;
+      const events = await app.getServices()!.getClientService()!.getEvents(serverId);
       res.json(events);
     });
 

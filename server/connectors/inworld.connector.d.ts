@@ -11,6 +11,7 @@ export declare class InworldConnector {
   private queue: string[];
   constructor();
   flushQueue();
+  checkClient(uid: string, sceneId: string, characterId: string);
   getClient(uid: number, sceneId: string, characterId: string);
   getConnection(uid: number, sceneId: string, characterId: string);
   getStatus(uid: number, sceneId: string, characterId: string);

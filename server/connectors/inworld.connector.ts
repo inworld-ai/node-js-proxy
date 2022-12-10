@@ -74,6 +74,7 @@ class InworldConnector {
     sceneId: string;
     characterId: string;
     playerName: string;
+    serverId: string;
   }) {
 
     // TODO refactor queue clean up to remove events with same uid, sceneId and characterId
@@ -89,19 +90,22 @@ class InworldConnector {
       scene: configuration.sceneId,
       character: configuration.characterId,
       playerName: configuration.playerName,
+      serverId: configuration.serverId,
       onDisconnect: onDisconnect,
       onError: onError,
       onMessage: onMessage
     });
     this.clients.push(client);
 
-    console.log('client', await client.getToken());
+    await client.generateSessionToken();
+
+    // console.log('client', await client.getToken());
 
     const connection = client.getConnection();
 
     const characters = await connection.getCharacters();
     const character = characters.find(character => character.getId() === configuration.characterId);
-    
+
     if (character) connection.setCurrentCharacter(character);
 
     connection.sendText("Hello");
@@ -109,7 +113,7 @@ class InworldConnector {
     var parent = this;
 
     // TODO Return false if unable to create client
-    return true
+    return { sessionId: client.getSessionId() };
 
     function onDisconnect() {
       console.info('❗ Inworld disconnected ' + Date.now());
@@ -183,6 +187,7 @@ class InworldConnector {
             parent.queue.push({
               type: 'text',
               uid: configuration.uid,
+              serverId: configuration.serverId,
               final: textEvent.final,
               text: textEvent.text,
               i,
@@ -194,6 +199,7 @@ class InworldConnector {
           parent.queue.push({
             type: 'text',
             uid: configuration.uid,
+            serverId: configuration.serverId,
             source: renderActor(packet.routing.source),
             target: renderActor(packet.routing.target),
             final: textEvent.final,
@@ -210,6 +216,7 @@ class InworldConnector {
         parent.queue.push({
           type: 'emotion',
           uid: configuration.uid,
+          serverId: configuration.serverId,
           joy: packet.emotions.joy,
           fear: packet.emotions.fear,
           trust: packet.emotions.trust,
@@ -225,6 +232,7 @@ class InworldConnector {
         parent.queue.push({
           type: 'custom',
           uid: configuration.uid,
+          serverId: configuration.serverId,
           name: packet.custom.name
         })
       }
@@ -233,31 +241,51 @@ class InworldConnector {
 
   }
 
+  flushServerQueue(serverId: string) {
+    const events = this.queue.filter(event => event.serverId == serverId )
+    this.queue = this.queue.filter(event => event.serverId != serverId )
+    return events;
+  }
+
   flushQueue() {
+    console.log('flushQueue');
     return this.queue.splice(0, this.queue.length);
   }
 
-  getClient(uid: string, sceneId: string, characterId: string) {
-    const client = this.clients.find(
-      client => client.getUID() == uid
-      && client.getScene() == sceneId
-      && client.getCharacter() == characterId
-    );
+  checkClient(uid: string, sceneId: string, characterId: string, serverId: String) {
+
+    let client
+    if ( serverId ) {
+      client = this.clients.find(
+        client => client.getUID() == uid
+        && client.getScene() == sceneId
+        && client.getCharacter() == characterId
+        && client.getServerId() == serverId
+      );
+    } else {
+      client = this.clients.find(
+        client => client.getUID() == uid
+        && client.getScene() == sceneId
+        && client.getCharacter() == characterId
+      );
+    }
     if (client) return client;
     else return false;
   }
 
-  getConnection(uid: string, sceneId: string, characterId: string) {
-    const client = this.clients.find(
-      client => client.getUID() == uid
-      && client.getScene() == sceneId
-      && client.getCharacter() == characterId
-    );
+  getClient(sessionId: string) {
+    const client = this.clients.find(client => client.getSessionId() == sessionId);
+    if (client) return client;
+    else return false;
+  }
+
+  getConnection(sessionId: string) {
+    const client = this.clients.find(client => client.getSessionId() == sessionId);
     if (client) return client.getConnection();
     else return false;
   }
 
-  getStatus(uid: string, sceneId: string, characterId: string) {
+  getStatus(sessionId: string) {
     // TODO
     return false;
   }

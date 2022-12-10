@@ -5,7 +5,6 @@ import {
   InworldPacket,
   ServiceError,
 } from '@inworld/nodejs-sdk';
-import { ChildProcess, fork } from 'child_process';
 
 class Client {
 
@@ -14,7 +13,8 @@ class Client {
 
   private character: string;
   private scene: string;
-  // private sessionToken: string;
+  private sessionId: string | undefined;
+  private serverId: string | undefined;
   private uid: string;
 
   constructor(props: {
@@ -25,6 +25,7 @@ class Client {
     scene: string;
     character: string;
     playerName?: string | undefined;
+    serverId?: string | undefined;
     onDisconnect?: () => void | undefined;
     onError?: (err: ServiceError) => void | undefined;
     onMessage?: (packet: InworldPacket) => void | undefined;
@@ -35,6 +36,7 @@ class Client {
     this.uid = props.uid;
     this.scene = props.scene;
     this.character = props.character;
+    this.serverId = props.serverId;
 
     // this.sessionToken = this.client.generateSessionToken();
 
@@ -74,11 +76,17 @@ class Client {
     return this.scene;
   }
 
-  async getToken() {
+  getSessionId() {
+    return this.sessionId;
+  }
 
-    // console.log('token', await this.client.generateSessionToken())
-    return await this.client.generateSessionToken();
-    // return this.sessionToken;
+  getServerId() {
+    return this.serverId;
+  }
+
+  async generateSessionToken() {
+    const token = await this.client.generateSessionToken();
+    this.sessionId = token.getSessionId();
   }
 
 }
