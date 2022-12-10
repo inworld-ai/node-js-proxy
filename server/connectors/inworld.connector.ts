@@ -101,6 +101,7 @@ class InworldConnector {
 
     const characters = await connection.getCharacters();
     const character = characters.find(character => character.getId() === configuration.characterId);
+    
     if (character) connection.setCurrentCharacter(character);
 
     connection.sendText("Hello");
@@ -171,7 +172,7 @@ class InworldConnector {
       const i = packetId.interactionId;
       const u = packetId.utteranceId;
 
-      console.log('Packet', packet)
+      // console.log('Packet', packet)
 
       // TEXT
       if (packet.isText()) {
