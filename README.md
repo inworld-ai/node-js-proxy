@@ -34,9 +34,9 @@ Production
 npm start
 ```
 
-#### Linux Server Installation
+#### PM2 Server Installation & Setup
 
-To run the server as a stable daemon that will restart on boot. Use PM2 from the project directory.
+To run the server as a stable daemon that will restart on boot.
 ```
 sudo npm install -g pm2
 pm2 startup

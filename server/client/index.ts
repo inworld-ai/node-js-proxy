@@ -10,7 +10,6 @@ class Client {
 
   private client: InworldClient;
   private connection: InworldConnectionService | null = null;
-
   private character: string;
   private scene: string;
   private sessionId: string | undefined;
@@ -38,8 +37,6 @@ class Client {
     this.character = props.character;
     this.serverId = props.serverId;
 
-    // this.sessionToken = this.client.generateSessionToken();
-
     if (props.config) this.client.setConfiguration(props.config);
     if (props.scene) this.client.setScene(props.scene);
     if (props.playerName) this.client.setUser({ fullName: props.playerName });
@@ -54,6 +51,22 @@ class Client {
       this.connection.close();
   }
 
+  async getCharacter() {
+    if (this.connection)
+      return await this.connection.getCurrentCharacter();
+    return false;
+  }
+  
+  getCharacterId() {
+    return this.character;
+  }
+
+  async getCharacters() {
+    if (this.connection)
+      return await this.connection.getCharacters();
+    return false;
+  }
+
   getClient() {
     return this.client;
   }
@@ -62,14 +75,6 @@ class Client {
     if (!this.connection)
       this.connection = this.client.build();
     return this.connection;
-  }
-
-  getUID() {
-    return this.uid;
-  }
-
-  getCharacter() {
-    return this.character;
   }
 
   getScene() {
@@ -84,9 +89,42 @@ class Client {
     return this.serverId;
   }
 
+  getUID() {
+    return this.uid;
+  }
+
   async generateSessionToken() {
     const token = await this.client.generateSessionToken();
     this.sessionId = token.getSessionId();
+  }
+
+  async sendCustom(customId: string) {
+    if (this.connection) {
+      await this.connection.sendCustom(customId);
+      return true;
+    }
+    return false;
+  }
+
+  async sendText(message: string) {
+    if (this.connection) {
+      await this.connection.sendText(message);
+      return true;
+    }
+    return false;
+  }
+
+  async setCharacter(characterId: string) {
+    if (this.connection) {
+      const characters = await this.connection.getCharacters();
+      const character = characters.find(character => character.getId() === characterId);
+      if (character) {
+        this.character = character.getId();
+        return await this.connection.setCurrentCharacter(character);
+      }
+      else return await this.connection.getCurrentCharacter();
+    }
+    return false;
   }
 
 }

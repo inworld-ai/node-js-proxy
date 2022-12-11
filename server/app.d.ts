@@ -1,10 +1,7 @@
-import Connectors from './connectors';
-import Services from './services';
+import Services from './service';
 
 export declare class App {
-  private connectors: Connectors | null;
-  private services: Services | null;
+  private services: Service;
   constructor();
-  getConnectors(): Connectors | null;
-  getServices(): Services | null;
+  getService(): Service;
 }

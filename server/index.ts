@@ -2,8 +2,9 @@ import cors from 'cors';
 import express from 'express';
 import morgan from 'morgan';
 
+import config from './config';
+
 import App  from './app';
-import Config from './config';
 import Routes from './routes';
 
 async function main() {
@@ -15,10 +16,12 @@ async function main() {
     const server: express.Application = express();
     server.use(cors());
     server.use(express.json());
+
+    // // Uncomment the below to enable route logging
     server.use(
       morgan('tiny', {
         skip(req, res) {
-          if (req.url === '/status') {
+          if (req.url === '/status' || req.url.startsWith('/events')) {
             return true
           }
           return false
@@ -27,11 +30,11 @@ async function main() {
     )
 
     const app = new App();
-    await app.init();
+    await app.getService().testService();
 
-    const routes = new Routes(app, server);
+    const routes = new Routes({app, server});
 
-    const port: number = Config.PORT;
+    const port: number = config.PORT;
     server.listen(port, () => {
       console.log(`Server Running at http://localhost:${port}/`);
     });

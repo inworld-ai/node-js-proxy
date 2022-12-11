@@ -1,27 +1,15 @@
-import Connectors from './connectors';
-import Services from './services';
+import Service from './service';
 
 class App {
 
-  private connectors: Connectors | null = null
-  private services: Services | null = null
+  private service: Service;
 
   constructor() {
-    this.connectors = new Connectors();
-    this.services = new Services();
+    this.service = new Service();
   }
 
-  async init() {
-    await this.connectors!.init();
-    await this.services!.init(this.connectors!);
-  }
-
-  getConnectors(): Connectors | null  {
-    return this.connectors;
-  }
-
-  getServices(): Services | null {
-    return this.services;
+  getService(): Service {
+    return this.service;
   }
 
 }
