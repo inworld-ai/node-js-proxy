@@ -1,5 +1,8 @@
-import Service from './service';
+import Service from './services';
 
+/**
+ * The main server application
+ */
 class App {
 
   private service: Service;

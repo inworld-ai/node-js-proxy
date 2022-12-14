@@ -8,6 +8,9 @@ import { TYPE_DISCONNECTED } from '../common/types';
 
 import config from '../config';
 
+/**
+ * Manager service for creation, deletion and updating of clients.
+ */
 class ServiceManager {
 
   private clients: Client[];
@@ -29,7 +32,7 @@ class ServiceManager {
     sceneId: string;
     characterId: string;
     playerName: string;
-    serverId: string;
+    serverId?: string;
   }) {
 
     try {
@@ -94,7 +97,7 @@ class ServiceManager {
 
   } // clientOpen
 
-  checkClient(uid: string, sceneId: string, characterId: string, serverId: String) {
+  checkClient(uid: string, sceneId: string, characterId: string, serverId?: string) {
     let client
     if ( serverId ) {
       client = this.clients.find(

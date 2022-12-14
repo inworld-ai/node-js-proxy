@@ -4,13 +4,17 @@
   "license": "SEE LICENSE IN LICENSE.md",
   "scripts": {
     "start": "ts-node server/index.ts",
-    "dev": "nodemon server/index.ts"
+    "dev": "nodemon server/index.ts",
+    "docs": "npm run docs:clean && npm run docs:generate",
+    "docs:clean": "npx rimraf docs",
+    "docs:generate": "npx typedoc"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",
     "@types/morgan": "^1.9.3",
     "nodemon": "^2.0.20",
     "ts-node": "^10.9.1",
+    "typedoc": "^0.23.22",
     "typescript": "^4.8.4"
   },
   "dependencies": {
@@ -20,8 +24,11 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.2",
+    "express-joi-validation": "^5.0.1",
+    "joi": "^17.7.0",
     "morgan": "^1.10.0",
     "node-record-lpcm16": "^1.0.1",
+    "rimraf": "^3.0.2",
     "split": "^1.0.1",
     "uuid": "^8.3.2"
   }

@@ -34,13 +34,17 @@ Production
 npm start
 ```
 
+#### Generating Documentation
+```
+npm run docs
+```
+
 #### PM2 Server Installation & Setup
 
 To run the server as a stable daemon that will restart on boot.
 ```
 sudo npm install -g pm2
 pm2 startup
-pm2 save
 pm2 start pm2.sh --name inworld
 pm2 save
 ```

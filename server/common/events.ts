@@ -2,7 +2,7 @@ import { InworldPacket } from '@inworld/nodejs-sdk';
 import { getBehavior, getStrength, renderActor, renderEventRouting } from './helpers';
 import { TYPE_CUSTOM, TYPE_EMOTION, TYPE_TEXT } from './types';
 
-function buildEvent(packet: InworldPacket, sessionId: string | undefined, uid: string, serverId: string) {
+function buildEvent(packet: InworldPacket, sessionId: string | undefined, uid: string, serverId?: string) {
 
   const { packetId } = packet;
   const p = packetId.packetId;

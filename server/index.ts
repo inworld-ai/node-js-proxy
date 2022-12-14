@@ -7,6 +7,10 @@ import config from './config';
 import App  from './app';
 import Routes from './routes';
 
+
+/**
+ * The main function
+ */
 async function main() {
 
   try {
@@ -17,7 +21,6 @@ async function main() {
     server.use(cors());
     server.use(express.json());
 
-    // // Uncomment the below to enable route logging
     server.use(
       morgan('tiny', {
         skip(req, res) {
@@ -30,7 +33,7 @@ async function main() {
     )
 
     const app = new App();
-    await app.getService().testService();
+    // await app.getService().testService();
 
     const routes = new Routes({app, server});
 

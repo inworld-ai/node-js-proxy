@@ -1,7 +1,7 @@
 import { ServiceError } from '@grpc/grpc-js';
 import { TYPE_DISCONNECTED, TYPE_PAUSED } from './types';
 
-function buildError(err: ServiceError, sessionId: string | undefined, uid: string, serverId: string) {
+function buildError(err: ServiceError, sessionId: string | undefined, uid: string, serverId?: string) {
 
   switch (err.code) {
 

@@ -2,6 +2,9 @@ import ServiceManager from './manager.service';
 
 import Client from '../client';
 
+/**
+ * Client service for managing a session.
+ */
 class Service {
 
   private manager: ServiceManager;
@@ -11,7 +14,14 @@ class Service {
     console.log('✔️ Service Success');
   }
 
-  clientClose(sessionId: string) {
+  /**
+   * Closes an open client session
+   *
+   * @param {string} sessionId - The unqiue identifer for a session
+   * @returns {boolean} true if the client was successfully closed
+   *
+   */
+  clientClose(sessionId: string): boolean {
     const client = this.manager.getClient(sessionId);
     if (client) {
       client.closeConnection();
@@ -19,7 +29,23 @@ class Service {
     } else return false;
   }
 
-  async clientOpen( uid: string, sceneId: string, characterId: string, playerName: string, serverId: string) {
+  /**
+   * Opens a client session and returns the session id
+   *
+   * @param {string} uid - The unqiue identifer for a user
+   * @param {string} sceneId - The Inworld scene id
+   * @param {string} characterId - The Inworld character id
+   * @param {string} playerName - The unqiue identifer for a user
+   * @param {string} serverId - The unqiue identifer for a server
+   * @returns {boolean} true if the client was successfully closed
+   *
+   */
+  async clientOpen(
+      uid: string,
+      sceneId: string,
+      characterId: string,
+      playerName: string,
+      serverId?: string): Promise<boolean | Object> {
     console.log('clientOpen', { uid, sceneId, characterId, playerName, serverId });
     const client = this.manager.checkClient(uid, sceneId, characterId, serverId);
     if (!client)
@@ -27,6 +53,14 @@ class Service {
     else return false;
   }
 
+  /**
+   * Closes all open client sessions opened using a unique id
+   *
+   * @param {string} uid - The unqiue identifer for a session
+   * @param {string} serverId - The unqiue identifer for a session
+   * @returns {boolean} true if the clients were successfully closed
+   *
+   */
   closeAll(uid: string, serverId?: string) {
     const clients = this.manager.getUsersClients(uid, serverId);
     if (clients) {
