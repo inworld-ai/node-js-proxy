@@ -1,0 +1,190 @@
+import { Character } from '@inworld/nodejs-sdk';
+
+import Session from '../entities/session';
+import SessionsService from './sessions.service';
+
+
+/**
+ * Session service for managing a session.
+ */
+class RouterService {
+
+  private sessions: SessionsService;
+
+  constructor() {
+    this.sessions = new SessionsService();
+    console.log('✔️ Service Success');
+  }
+
+  /**
+   * Closes an open session session
+   *
+   * @param {string} sessionId - The unqiue identifer for a session
+   * @returns {boolean} true if the session was successfully closed
+   *
+   */
+  sessionClose(sessionId: string): boolean {
+    const session = this.sessions.getSession(sessionId);
+    if (session) {
+      session.close();
+      return true;
+    } else return false;
+  }
+
+  /**
+   * Opens a session session and returns the session id
+   *
+   * @param {string} uid - The unqiue identifer for a user
+   * @param {string} sceneId - The Inworld scene id
+   * @param {string} characterId - The Inworld character id
+   * @param {string} [playerName] - The unqiue identifer for a user
+   * @param {string} [serverId] - The unqiue identifer for a server
+   * @returns {Promise<session | boolean>} Promise representing true if the session was successfully closed
+   *
+   */
+  async sessionOpen(
+      uid: string,
+      sceneId: string,
+      characterId: string,
+      playerName?: string,
+      serverId?: string): Promise<Object | boolean> {
+    console.log('sessionOpen', { uid, sceneId, characterId, playerName, serverId });
+    const session = this.sessions.checkSession(uid, sceneId, characterId, serverId);
+    if (!session)
+      return await this.sessions.sessionOpen({ uid, sceneId, characterId, playerName, serverId });
+    else return false;
+  }
+
+  /**
+   * Closes all open session sessions opened using a unique id
+   *
+   * @param {string} uid - The unqiue identifer for a session
+   * @param {string} serverId - The unqiue identifer for a session
+   * @returns {boolean} true if the sessions were successfully closed
+   *
+   */
+  closeAll(uid: string, serverId?: string): boolean {
+    const sessions = this.sessions.getUsersSessions(uid, serverId);
+    if (sessions) {
+      sessions.forEach(session => session.close());
+      return true;
+    } else return false;
+  }
+
+  /**
+   * Gets the current active character in the scene
+   *
+   * @param {string} sessionId - The unqiue identifer for a session
+   * @returns {Promise<boolean>} Promise representing the session return object or false if the session id isn't found
+   *
+   */
+  async getCharacter(sessionId: string): Promise<Character | boolean> {
+    const session = this.sessions.getSession(sessionId);
+    if (session)
+      return await session.getCharacter();
+    else return false;
+  }
+
+  /**
+   * Gets a list of characters in the scene
+   *
+   * @param {string} sessionId - The unqiue identifer for a session
+   * @returns {Promise<Character[] | boolean>} Promise representing the session return object or false if the session id isn't found
+   *
+   */
+  async getCharacters(sessionId: string): Promise<Character[] | boolean> {
+    const session = this.sessions.getSession(sessionId);
+    if (session)
+      return await session.getCharacters();
+    else return false;
+  }
+
+  /**
+   * Gets a list of characters in the scene
+   *
+   * @param {string} [sessionId] - The unqiue identifer for a session
+   * @returns {} An array of the events received by sessions
+   *
+   */
+  getEvents(serverId?: string | undefined ): any[] {
+    if (serverId) {
+      return this.sessions.flushServerQueue(serverId);
+    } else {
+      return this.sessions.flushQueue();
+    }
+  }
+
+  /**
+   * Checks if a session id exists
+   *
+   * @param {string} sessionId - The unqiue identifer for a session
+   * @returns {boolean} true of the session id exists
+   *
+   */
+  getStatus(sessionId: string): boolean {
+    if (this.sessions.getSession(sessionId))
+      return true;
+    else return false;
+  }
+
+  /**
+   * Sends a scene trigger
+   *
+   * @param {string} sessionId - The unqiue identifer for a session
+   * @returns {Promise<boolean>} Promise representing true if sending the trigger was successful
+   *
+   */
+  async sendCustom(sessionId: string, customId: string): Promise<boolean> {
+    const session = this.sessions.getSession(sessionId);
+    if (session) {
+      await session.sendCustom(customId);
+      return true;
+    }
+    else return false;
+  }
+
+  /**
+   * Sends a message to a session
+   *
+   * @param {string} sessionId - The unqiue identifer for a session
+   * @param {string} message - The message to send
+   * @returns {Promise<boolean>} Promise representing true if sending the message was successful
+   *
+   */
+  async sendMessage(sessionId: string, message: string): Promise<boolean> {
+    const session = this.sessions.getSession(sessionId);
+    if (session) {
+      await session.sendText(message);
+      return true;
+    }
+    else return false;
+  }
+
+  /**
+   * Changes the current character within a session's scene
+   *
+   * @param {string} sessionId - The unqiue identifer for a session
+   * @param {string} characterId - The character to change to
+   * @returns {Promise<Character | boolean>} Promise representing the Character that was changed to or false
+   *
+   */
+  async setCharacter(sessionId: string, characterId: string): Promise<Character | boolean> {
+    const session = this.sessions.getSession(sessionId);
+    if (session)
+      return await session.setCharacter(characterId);
+    else return false;
+  }
+
+  /**
+   * Test if a connection can be made to Inworlds
+   *
+   * @returns {Promise<void>} Promise representing the successful Inworld connection test
+   *
+   */
+  async testConnection(): Promise<void> {
+    await this.sessions.testConnection();
+  }
+
+}
+
+export default RouterService;

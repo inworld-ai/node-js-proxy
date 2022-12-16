@@ -1,9 +1,7 @@
-import { Application, Router } from "express";
-import * as Joi from 'joi'
-import { ContainerTypes,
-  ValidatedRequest,
-  ValidatedRequestSchema,
-  createValidator } from 'express-joi-validation'
+import { Application, Router as ExpressRouter } from "express";
+import * as Joi from 'joi';
+import { ValidatedRequest, createValidator } from 'express-joi-validation';
+
 import { GetCharacterRequestSchema,
   SetCharacterRequestSchema,
   GetCharactersRequestSchema,
@@ -15,19 +13,28 @@ import { GetCharacterRequestSchema,
   OpenSessionsRequestSchema,
   GetSessionStatusRequestSchema,
   GetSessionEventsByServerRequestSchema
-} from './interfaces.routes'
+} from './router.interfaces';
+import RouterService from '../services/router.service';
 
-import App from '../app';
+/**
+ * Router loads and processes the RESTful routes
+ */
+class Router {
 
-class Routes {
+  /**
+   * Router class for loading the RESTful routes
+   *
+   * @param {Object} props - Constructor properties
+   * @param {RouterService} props.service - The router service
+   * @param {Application} props.server - The Express Application server
+   */
+  constructor(props: { service: RouterService, server: Application }) {
 
-  constructor(props: { app: App, server: Application }) {
-
-    const router: Router = Router();
+    const router: ExpressRouter = ExpressRouter();
     const validate = createValidator();
 
     router.get('/', (req, res) => {
-      res.send("Inworld.AI NodeJS Proxy");
+      res.send('Inworld.AI RESTful Server');
     });
 
     router.get('/status', (req, res) => {
@@ -44,7 +51,7 @@ class Routes {
       const {
         params: { sessionId }
       } = req;
-      const response = await props.app.getService().getCharacter(sessionId);
+      const response = await props.service.getCharacter(sessionId);
       if (response)
         res.json(response);
       else
@@ -62,7 +69,7 @@ class Routes {
       const {
         params: { sessionId, characterId }
       } = req;
-      const response = await props.app.getService().setCharacter(sessionId, characterId);
+      const response = await props.service.setCharacter(sessionId, characterId);
       if (response)
         res.json(response);
       else
@@ -79,7 +86,7 @@ class Routes {
         const {
           params: { sessionId }
         } = req;
-        const response = await props.app.getService().getCharacters(sessionId);
+        const response = await props.service.getCharacters(sessionId);
         if (response)
           res.json(response);
         else
@@ -97,7 +104,7 @@ class Routes {
         const {
           params: { sessionId }
         } = req;
-        const response = props.app.getService().clientClose(sessionId);
+        const response = props.service.sessionClose(sessionId);
         if(response) {
           res.sendStatus(200);
         } else {
@@ -116,7 +123,7 @@ class Routes {
         const {
           params: { uid }
         } = req;
-        const response = props.app.getService().closeAll(uid);
+        const response = props.service.closeAll(uid);
         if(response) {
           res.sendStatus(200);
         } else {
@@ -136,7 +143,7 @@ class Routes {
         const {
           params: { uid, serverId }
         } = req;
-        const response = props.app.getService().closeAll(uid, serverId);
+        const response = props.service.closeAll(uid, serverId);
         if(response) {
           res.sendStatus(200);
         } else {
@@ -156,7 +163,7 @@ class Routes {
         const {
           params: { sessionId, customId }
         } = req;
-        const response = await props.app.getService().sendCustom(sessionId, customId);
+        const response = await props.service.sendCustom(sessionId, customId);
         if (response)
           res.sendStatus(202);
         else
@@ -180,7 +187,7 @@ class Routes {
           body: { message },
           params: { sessionId }
         } = req;
-        const response = await props.app.getService().sendMessage(sessionId, message);
+        const response = await props.service.sendMessage(sessionId, message);
         if (response)
           res.sendStatus(202);
         else
@@ -194,7 +201,7 @@ class Routes {
           uid: Joi.string().required(),
           sceneId: Joi.string().required(),
           characterId: Joi.string().required(),
-          playerName: Joi.string().required(),
+          playerName: Joi.string().optional(),
           serverId: Joi.string().optional()
         })
       ),
@@ -202,7 +209,7 @@ class Routes {
         const {
           body: { uid, sceneId, characterId, playerName, serverId }
         } = req;
-        const response = await props.app.getService().clientOpen(uid, sceneId, characterId, playerName, serverId);
+        const response = await props.service.sessionOpen(uid, sceneId, characterId, playerName, serverId);
         if (response)
           res.json(response);
         else
@@ -220,18 +227,18 @@ class Routes {
         const {
           params: { sessionId }
         } = req;
-        const response = await props.app.getService().getStatus(sessionId);
+        const response = await props.service.getStatus(sessionId);
         if (response)
           res.json(response);
         else
-          res.sendStatus(404);
+          res.status(404).json('Session ' + sessionId + ' Not Found');
       }
     );
 
     // Note: This route is not displayed in logging output
     router.get('/events',
       async (req, res) => {
-      const events = props.app.getService().getEvents();
+      const events = props.service.getEvents();
       res.json(events);
     });
 
@@ -246,7 +253,7 @@ class Routes {
         const {
           params: { serverId }
         } = req;
-        const events = await props.app.getService().getEvents(serverId);
+        const events = await props.service.getEvents(serverId);
         res.json(events);
       }
     );
@@ -263,4 +270,4 @@ class Routes {
 
 }
 
-export default Routes;
+export default Router;

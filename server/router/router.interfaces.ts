@@ -1,4 +1,4 @@
-import { ValidatedRequestSchema } from 'express-joi-validation'
+import { ContainerTypes, ValidatedRequestSchema } from 'express-joi-validation';
 
 export interface GetCharacterRequestSchema extends ValidatedRequestSchema {
   [ContainerTypes.Params]: {

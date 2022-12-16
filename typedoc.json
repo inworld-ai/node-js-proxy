@@ -1,7 +1,6 @@
 {
   "$schema": "https://typedoc.org/schema.json",
-  "entryPoints": ["./server/"],
-  "entryPointStrategy": "expand",
+  "entryPoints": ["./server/index.ts"],
   "out": "docs",
   "compilerOptions": {
     "skipLibCheck": true

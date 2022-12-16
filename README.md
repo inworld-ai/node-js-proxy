@@ -11,7 +11,7 @@ This project creates a Node.js based RESTful proxy of Inworld.ai's streaming SDK
 + Inworld.ai Account API Key, Secret a Scene ID
 
 
-#### Installation
+### Installation
 
 ```
 git clone https://github.com/inworld-ai/node-js-proxy
@@ -23,23 +23,32 @@ cp .env-sample .env
 Fill in the .env variables with the Inworld.ai account information.
 
 
-#### Running
-Development
+### Running
+
+#### Development
+
 ```
 npm run dev
 ```
+<br />
 
-Production
+#### Production
+
 ```
 npm start
 ```
 
-#### Generating Documentation
+<br />
+
+### Generating Documentation
+
 ```
 npm run docs
 ```
 
-#### PM2 Server Installation & Setup
+<br />
+
+### PM2 Server Installation & Setup
 
 To run the server as a stable daemon that will restart on boot.
 ```
@@ -48,6 +57,8 @@ pm2 startup
 pm2 start pm2.sh --name inworld
 pm2 save
 ```
+
+<br />
 
 #### RESTful Routes
 Import the exported Postman workspace located in this project's folder at
