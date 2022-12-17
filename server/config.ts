@@ -7,6 +7,16 @@
 
 import 'dotenv/config';
 
+/**
+ * @typedef {Object} Config
+ * @property {object} SERVERs
+ * @property {number} SERVER.PORT
+ * @property {object} INWORLD
+ * @property {string} INWORLD.KEY
+ * @property {string} INWORLD.SECRET
+ * @property {string} INWORLD.SCENE
+ * @property {number} INWORLD.DISCONNECT_TIMEOUT
+ */
 // The configuration settings for the server and Inworld sessions
 export const config = {
   SERVER: {

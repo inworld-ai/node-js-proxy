@@ -43,15 +43,16 @@ export class SessionsService {
   /**
    * Open an Inworld session
    *
-   * @param {string} uid - The unqiue identifer for a user
-   * @param {string} sceneId - The Inworld scene id
-   * @param {string} characterId - The Inworld character id
-   * @param {string} [playerName] - The unqiue identifer for a user
-   * @param {string} [serverId] - The unqiue identifer for a server
-   * @returns {Promise<any | boolean>} Promise representing true if the session was successfully closed
+   * @param {Object} props - Constructor properties
+   * @param {string} props.uid - The unqiue identifer for a user
+   * @param {string} props.sceneId - The Inworld scene id
+   * @param {string} props.characterId - The Inworld character id
+   * @param {string} props.[playerName] - The unqiue identifer for a user
+   * @param {string} props.[serverId] - The unqiue identifer for a server
+   * @returns {Promise<ISessionResponse | boolean>} Promise representing ISessionResponse or false if and error is thrown
    *
    */
-  async sessionOpen( configuration : {
+  async sessionOpen( props : {
     uid: string,
     sceneId: string,
     characterId: string,
@@ -71,11 +72,11 @@ export class SessionsService {
         },
         key: this._key,
         secret: this._secret,
-        uid: configuration.uid,
-        sceneId: configuration.sceneId,
-        characterId: configuration.characterId,
-        playerName: configuration.playerName,
-        serverId: configuration.serverId,
+        uid: props.uid,
+        sceneId: props.sceneId,
+        characterId: props.characterId,
+        playerName: props.playerName,
+        serverId: props.serverId,
         onDisconnect: onDisconnect,
         onError: onError,
         onMessage: onMessage
@@ -88,7 +89,7 @@ export class SessionsService {
 
       session.getConnection();
 
-      await session.setCharacter(configuration.characterId);
+      await session.setCharacter(props.characterId);
 
       const response: ISessionResponse = {
         sessionId: session.getSessionId(),
@@ -103,7 +104,7 @@ export class SessionsService {
       }
 
       function onError(err: ServiceError) {
-        const error: IEvent | undefined = EventFactory.buildError(err, session.getSessionId(), configuration.uid, configuration.serverId);
+        const error: IEvent | undefined = EventFactory.buildError(err, session.getSessionId(), props.uid, props.serverId);
         if ( error && error.type == TYPE_DISCONNECTED ) {
           parent._sessions.splice(parent._sessions.indexOf(session), 1);
         }
@@ -112,7 +113,7 @@ export class SessionsService {
 
       function onMessage(packet: InworldPacket) {
         // console.log('Packet', packet)
-        const event: IEvent | undefined = EventFactory.buildEvent(packet, session.getSessionId(), configuration.uid, configuration.serverId);
+        const event: IEvent | undefined = EventFactory.buildEvent(packet, session.getSessionId(), props.uid, props.serverId);
         if (event) parent._queue.push(event);
       }
 
