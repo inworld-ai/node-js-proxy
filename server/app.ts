@@ -1,15 +1,25 @@
+/**
+ * This module involves the creation and starting of the RESTful server
+ *
+ * It also tests a connection to Inworld
+ *
+ * @module
+ */
+
 import cors from 'cors';
 import express from 'express';
 import morgan from 'morgan';
 
-import config from './config';
-import Router from './router';
-import RouterService from './services/router.service';
+import { config } from './config';
+import { Router } from './router';
+import { RouterService } from './services/router.service';
 
 /**
- * The main _server application that starts the web _service
+ * The main server application that creates and starts the web service.
+ *
+ * It also runs a test to connect to the Inworld server.
  */
-class App {
+export class App {
 
   private _router: Router;
   private _server: express.Application;
@@ -17,35 +27,37 @@ class App {
 
   constructor() {
 
-    try {
+    this._server = express();
+    this._server.use(cors());
+    this._server.use(express.json());
 
-      this._server = express();
-      this._server.use(cors());
-      this._server.use(express.json());
-
-      this._server.use(
-        morgan('tiny', {
-          skip(req, res) {
-            if (req.url === '/status' || req.url.startsWith('/events')) {
-              return true
-            }
-            return false
+    this._server.use(
+      morgan('tiny', {
+        skip(req) {
+          if (req.url === '/status' || req.url.startsWith('/events')) {
+            return true
           }
-        })
-      )
+          return false
+        }
+      })
+    )
 
-      this._service = new RouterService();
-      this._router = new Router({service: this._service, server: this._server});
+    this._service = new RouterService();
+    this._router = new Router({service: this._service, server: this._server});
 
-      const port: number = config.SERVER.PORT;
-      this._server.listen(port, () => {
-        console.log(`Server Running On Port: ${port}`);
-      });
+  }
 
-    } catch (err: any) {
-      throw err;
-    }
-
+  /**
+   * Starts the RESTful API Server
+   *
+   * @returns {Promise<void>} Promise representing the starting of the server
+   *
+   */
+  async start(): Promise<void> {
+    const port: number = config.SERVER.PORT;
+    this._server.listen(port, () => {
+      console.log(`✔️ Server Running On Port: ${port}`);
+    });
   }
 
   /**
@@ -59,5 +71,3 @@ class App {
   }
 
 }
-
-export default App

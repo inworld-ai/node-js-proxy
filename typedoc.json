@@ -1,7 +1,12 @@
 {
   "$schema": "https://typedoc.org/schema.json",
-  "entryPoints": ["./server/index.ts"],
+  "entryPointStrategy": "expand",
+  "entryPoints": ["./server/"],
   "out": "docs",
+  "plugin": ["typedoc-theme-hierarchy"],
+  "theme": "hierarchy",
+  "tsconfig": "./tsconfig.json",
+  "name": "Inworld RESTful Server",
   "compilerOptions": {
     "skipLibCheck": true
   }

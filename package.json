@@ -4,7 +4,9 @@
   "license": "SEE LICENSE IN LICENSE.md",
   "scripts": {
     "start": "ts-node server/index.ts",
-    "dev": "nodemon server/index.ts",
+    "dev": "npm run dev:lint && npm run dev:start",
+    "dev:start": "nodemon server/index.ts",
+    "dev:lint": "eslint . --ext .ts",
     "docs": "npm run docs:clean && npm run docs:generate",
     "docs:clean": "npx rimraf docs",
     "docs:generate": "npx typedoc"
@@ -12,9 +14,13 @@
   "devDependencies": {
     "@types/cors": "^2.8.12",
     "@types/morgan": "^1.9.3",
+    "@typescript-eslint/eslint-plugin": "^5.46.1",
+    "@typescript-eslint/parser": "^5.46.1",
+    "eslint": "^8.29.0",
     "nodemon": "^2.0.20",
     "ts-node": "^10.9.1",
     "typedoc": "^0.23.22",
+    "typedoc-theme-hierarchy": "^3.0.2",
     "typescript": "^4.8.4"
   },
   "dependencies": {

@@ -1,3 +1,10 @@
+/**
+ * This module contains helper functions used in reading event packets
+ * received by the Inworld connection.
+ *
+ * @module
+ */
+
 import {
   Actor,
   EmotionBehavior,
@@ -5,7 +12,7 @@ import {
   InworldPacket,
 } from '@inworld/nodejs-sdk';
 
-function getBehavior(behavior: EmotionBehavior) {
+export function getBehavior(behavior: EmotionBehavior) {
   switch (true) {
     case behavior.isNeutral():
     return 'Neutral';
@@ -46,27 +53,25 @@ function getBehavior(behavior: EmotionBehavior) {
     case behavior.isJoy():
     return 'Joy';
   }
-};
+}
 
-function getStrength(strength: EmotionStrength) {
+export function getStrength(strength: EmotionStrength) {
   switch (true) {
     case strength.isWeak():
     return 'Weak';
     case strength.isStrong():
     return 'Strong';
   }
-};
+}
 
-function renderActor(actor: Actor) {
+export function renderActor(actor: Actor) {
   if (actor.isPlayer) return 'Player';
   else if (actor.isCharacter) return `Character(${actor.name})`;
   else return 'Unknown';
-};
+}
 
-function renderEventRouting(packet: InworldPacket) {
+export function renderEventRouting(packet: InworldPacket) {
   return `${renderActor(packet.routing.source)} to ${renderActor(
     packet.routing.target,
   )}`;
-};
-
-export { getBehavior, getStrength, renderActor, renderEventRouting }
+}

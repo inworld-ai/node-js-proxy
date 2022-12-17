@@ -1,3 +1,9 @@
+/**
+ * This module defines a single Inworld session.
+ *
+ * @module
+ */
+
 import {
   Character,
   ClientConfiguration,
@@ -10,8 +16,7 @@ import {
 /**
  * Class for maintaining and setting the state of a Session
  */
-class Session {
-
+export class Session {
 
   private _client: InworldClient;
   private _connection: InworldConnectionService | null = null;
@@ -80,16 +85,15 @@ class Session {
   /**
    * Gets the scene's current active character
    *
-   * @returns {Promise<(Character | boolean)>} Promise representing a Character or a false there is no connection
+   * @returns {Promise<Character>} Promise representing a Character or a false there is no connection
    */
-  async getCharacter(): Promise<(Character | boolean)> {
-    if (this._connection)
-      return await this._connection.getCurrentCharacter();
-    return false;
+  async getCharacter(): Promise<Character> {
+    if (!this._connection) throw new Error("No Inworld Connection")
+    return await this._connection.getCurrentCharacter();
   }
 
   /**
-   * Gets the current characterId. Note
+   * Gets the current characterId
    *
    * @returns {string>} The scene's character id
    */
@@ -100,12 +104,11 @@ class Session {
   /**
    * Gets the scene's list of characters
    *
-   * @returns {Promise<(Character[] | boolean)>} Promise representing Characters or a false there is no connection
+   * @returns {Promise<Character[]>} Promise representing Characters or a false there is no connection
    */
-  async getCharacters(): Promise<(Character[] | boolean)> {
-    if (this._connection)
-      return await this._connection.getCharacters();
-    return false;
+  async getCharacters(): Promise<Character[]> {
+    if (!this._connection) throw new Error("No Inworld Connection")
+    return await this._connection.getCharacters();
   }
 
   /**
@@ -222,5 +225,3 @@ class Session {
   }
 
 }
-
-export default Session

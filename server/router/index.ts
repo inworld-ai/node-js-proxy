@@ -1,6 +1,13 @@
+/**
+ * This module defines the RESTful routes the server can receive and validation
+ * of the incoming requests.
+ *
+ * @module
+ */
+
 import { Application, Router as ExpressRouter } from "express";
-import * as Joi from 'joi';
 import { ValidatedRequest, createValidator } from 'express-joi-validation';
+import * as Joi from 'joi';
 
 import { GetCharacterRequestSchema,
   SetCharacterRequestSchema,
@@ -14,12 +21,13 @@ import { GetCharacterRequestSchema,
   GetSessionStatusRequestSchema,
   GetSessionEventsByServerRequestSchema
 } from './router.interfaces';
-import RouterService from '../services/router.service';
+import { RouterService } from '../services/router.service';
+
 
 /**
  * Router loads and processes the RESTful routes
  */
-class Router {
+export class Router {
 
   /**
    * Router class for loading the RESTful routes
@@ -269,5 +277,3 @@ class Router {
   }
 
 }
-
-export default Router;

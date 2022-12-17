@@ -1,19 +1,24 @@
+/**
+ * This module handles processing the session requests coming from the router.
+ *
+ * @module
+ */
+
 import { Character } from '@inworld/nodejs-sdk';
 
-import Session from '../entities/session';
-import SessionsService from './sessions.service';
-
+import { IEvent } from '../factories/event';
+import { SessionsService } from './sessions.service';
 
 /**
  * Session service for managing a session.
  */
-class RouterService {
+export class RouterService {
 
-  private sessions: SessionsService;
+  private _sessions: SessionsService;
 
   constructor() {
-    this.sessions = new SessionsService();
-    console.log('✔️ Service Success');
+    this._sessions = new SessionsService();
+    console.log('✔️ Services Success');
   }
 
   /**
@@ -24,7 +29,7 @@ class RouterService {
    *
    */
   sessionClose(sessionId: string): boolean {
-    const session = this.sessions.getSession(sessionId);
+    const session = this._sessions.getSession(sessionId);
     if (session) {
       session.close();
       return true;
@@ -39,7 +44,7 @@ class RouterService {
    * @param {string} characterId - The Inworld character id
    * @param {string} [playerName] - The unqiue identifer for a user
    * @param {string} [serverId] - The unqiue identifer for a server
-   * @returns {Promise<session | boolean>} Promise representing true if the session was successfully closed
+   * @returns {Promise<object | boolean>} Promise representing true if the session was successfully closed
    *
    */
   async sessionOpen(
@@ -47,11 +52,11 @@ class RouterService {
       sceneId: string,
       characterId: string,
       playerName?: string,
-      serverId?: string): Promise<Object | boolean> {
+      serverId?: string): Promise<object | boolean> {
     console.log('sessionOpen', { uid, sceneId, characterId, playerName, serverId });
-    const session = this.sessions.checkSession(uid, sceneId, characterId, serverId);
+    const session = this._sessions.checkSession(uid, sceneId, characterId, serverId);
     if (!session)
-      return await this.sessions.sessionOpen({ uid, sceneId, characterId, playerName, serverId });
+      return await this._sessions.sessionOpen({ uid, sceneId, characterId, playerName, serverId });
     else return false;
   }
 
@@ -64,7 +69,7 @@ class RouterService {
    *
    */
   closeAll(uid: string, serverId?: string): boolean {
-    const sessions = this.sessions.getUsersSessions(uid, serverId);
+    const sessions = this._sessions.getUsersSessions(uid, serverId);
     if (sessions) {
       sessions.forEach(session => session.close());
       return true;
@@ -79,7 +84,7 @@ class RouterService {
    *
    */
   async getCharacter(sessionId: string): Promise<Character | boolean> {
-    const session = this.sessions.getSession(sessionId);
+    const session = this._sessions.getSession(sessionId);
     if (session)
       return await session.getCharacter();
     else return false;
@@ -93,7 +98,7 @@ class RouterService {
    *
    */
   async getCharacters(sessionId: string): Promise<Character[] | boolean> {
-    const session = this.sessions.getSession(sessionId);
+    const session = this._sessions.getSession(sessionId);
     if (session)
       return await session.getCharacters();
     else return false;
@@ -106,11 +111,11 @@ class RouterService {
    * @returns {} An array of the events received by sessions
    *
    */
-  getEvents(serverId?: string | undefined ): any[] {
+  getEvents(serverId?: string | undefined ): IEvent[] {
     if (serverId) {
-      return this.sessions.flushServerQueue(serverId);
+      return this._sessions.flushServerQueue(serverId);
     } else {
-      return this.sessions.flushQueue();
+      return this._sessions.flushQueue();
     }
   }
 
@@ -122,7 +127,7 @@ class RouterService {
    *
    */
   getStatus(sessionId: string): boolean {
-    if (this.sessions.getSession(sessionId))
+    if (this._sessions.getSession(sessionId))
       return true;
     else return false;
   }
@@ -135,7 +140,7 @@ class RouterService {
    *
    */
   async sendCustom(sessionId: string, customId: string): Promise<boolean> {
-    const session = this.sessions.getSession(sessionId);
+    const session = this._sessions.getSession(sessionId);
     if (session) {
       await session.sendCustom(customId);
       return true;
@@ -152,7 +157,7 @@ class RouterService {
    *
    */
   async sendMessage(sessionId: string, message: string): Promise<boolean> {
-    const session = this.sessions.getSession(sessionId);
+    const session = this._sessions.getSession(sessionId);
     if (session) {
       await session.sendText(message);
       return true;
@@ -169,7 +174,7 @@ class RouterService {
    *
    */
   async setCharacter(sessionId: string, characterId: string): Promise<Character | boolean> {
-    const session = this.sessions.getSession(sessionId);
+    const session = this._sessions.getSession(sessionId);
     if (session)
       return await session.setCharacter(characterId);
     else return false;
@@ -182,9 +187,7 @@ class RouterService {
    *
    */
   async testConnection(): Promise<void> {
-    await this.sessions.testConnection();
+    await this._sessions.testConnection();
   }
 
 }
-
-export default RouterService;

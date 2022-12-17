@@ -1,3 +1,9 @@
+/**
+ * This module defines interfaces types used in validation of the incoming requests.
+ *
+ * @module
+ */
+
 import { ContainerTypes, ValidatedRequestSchema } from 'express-joi-validation';
 
 export interface GetCharacterRequestSchema extends ValidatedRequestSchema {

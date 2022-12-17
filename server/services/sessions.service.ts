@@ -1,33 +1,43 @@
+/**
+ * This module manages the open sessions for the server.
+ *
+ * @module
+ */
+
 import { ServiceError } from '@grpc/grpc-js';
-import { InworldPacket, InworldConnectionService } from '@inworld/nodejs-sdk';
+import { Character, InworldPacket } from '@inworld/nodejs-sdk';
 
-import Session from '../entities/session';
-import { buildError } from '../common/errors';
-import { buildEvent } from '../common/events';
 import { TYPE_DISCONNECTED } from '../common/types';
+import { config } from '../config';
+import { Session } from '../entities/session';
+import { EventFactory, IEvent } from '../factories/event';
 
-import config from '../config';
+export interface ISessionResponse {
+  sessionId: string | undefined,
+  character: Character,
+  characters: Character[]
+}
 
 /**
  * Manager service for creation, deletion and updating of sessions.
  */
-class SessionsService {
+export class SessionsService {
 
-  private sessions: Session[];
-  private queue: any[];
-  private key: string = config.INWORLD.KEY!
-  private secret: string = config.INWORLD.SECRET!
-  private scene: string = config.INWORLD.SCENE!
+  private _sessions: Session[];
+  private _queue: IEvent[];
+  private _key: string;
+  private _secret: string;
+  private _scene: string;
 
   /**
    * Create an instance of `SessionsService`.
    */
   constructor() {
-    if (!this.key) throw Error("Inworld API Key Undefined");
-    if (!this.secret) throw Error("Inworld API Secret Undefined");
-    if (!this.scene) throw Error("Inworld API Default Scene Undefined");
-    this.sessions = [];
-    this.queue = [];
+    this._sessions = [];
+    this._queue = []
+    this._key = config.INWORLD.KEY;
+    this._secret = config.INWORLD.SECRET;
+    this._scene = config.INWORLD.SCENE;
   }
 
   /**
@@ -42,12 +52,12 @@ class SessionsService {
    *
    */
   async sessionOpen( configuration : {
-    uid: string;
-    sceneId: string;
-    characterId: string;
-    playerName?: string;
-    serverId?: string;
-  }): Promise<any | boolean> {
+    uid: string,
+    sceneId: string,
+    characterId: string,
+    playerName?: string,
+    serverId?: string,
+  }): Promise<ISessionResponse | boolean> {
 
     try {
 
@@ -59,8 +69,8 @@ class SessionsService {
             disconnectTimeout: config.INWORLD.DISCONNECT_TIMEOUT,
           },
         },
-        key: this.key,
-        secret: this.secret,
+        key: this._key,
+        secret: this._secret,
         uid: configuration.uid,
         sceneId: configuration.sceneId,
         characterId: configuration.characterId,
@@ -70,40 +80,43 @@ class SessionsService {
         onError: onError,
         onMessage: onMessage
       });
-      this.sessions.push(session);
+      this._sessions.push(session);
 
-      var parent = this;
+      const parent = this;
 
       await session.generateSessionToken();
 
-      const connection = session.getConnection();
+      session.getConnection();
 
       await session.setCharacter(configuration.characterId);
 
-      return {
+      const response: ISessionResponse = {
         sessionId: session.getSessionId(),
         character: await session.getCharacter(),
         characters: await session.getCharacters()
       };
 
-      function onDisconnect() {
+      return response;
+
+      function onDisconnect(): void {
+        console.log('Session Disconnected', session.getSessionId());
       }
 
       function onError(err: ServiceError) {
-        const error = buildError(err, session.getSessionId(), configuration.uid, configuration.serverId)
+        const error: IEvent | undefined = EventFactory.buildError(err, session.getSessionId(), configuration.uid, configuration.serverId);
         if ( error && error.type == TYPE_DISCONNECTED ) {
-          parent.sessions.splice(parent.sessions.indexOf(session), 1);
+          parent._sessions.splice(parent._sessions.indexOf(session), 1);
         }
-        if (error) parent.queue.push(error)
+        if (error) parent._queue.push(error);
       }
 
       function onMessage(packet: InworldPacket) {
         // console.log('Packet', packet)
-        const event = buildEvent(packet, session.getSessionId(), configuration.uid, configuration.serverId)
-        if (event) parent.queue.push(event)
+        const event: IEvent | undefined = EventFactory.buildEvent(packet, session.getSessionId(), configuration.uid, configuration.serverId);
+        if (event) parent._queue.push(event);
       }
 
-    } catch (e) {
+    } catch (e: unknown) {
       console.error(e);
       return false;
     }
@@ -124,14 +137,14 @@ class SessionsService {
   checkSession(uid: string, sceneId: string, characterId: string, serverId?: string): Session | boolean {
     let session
     if ( serverId ) {
-      session = this.sessions.find(
+      session = this._sessions.find(
         session => session.getUID() == uid
         && session.getSceneId() == sceneId
         && session.getCharacterId() == characterId
         && session.getServerId() == serverId
       );
     } else {
-      session = this.sessions.find(
+      session = this._sessions.find(
         session => session.getUID() == uid
         && session.getSceneId() == sceneId
         && session.getCharacterId() == characterId
@@ -151,8 +164,8 @@ class SessionsService {
   flushServerQueue(serverId: string) {
     try {
       // console.log('flushServerQueue', serverId)
-      const events = this.queue.filter(event => event.serverId == serverId);
-      this.queue = this.queue.filter(event => event.serverId != serverId);
+      const events = this._queue.filter(event => event.serverId == serverId);
+      this._queue = this._queue.filter(event => event.serverId != serverId);
       return events;
     } catch (e) {
       console.error(e);
@@ -167,7 +180,7 @@ class SessionsService {
    *
    */
   flushQueue() {
-    return this.queue.splice(0, this.queue.length);
+    return this._queue.splice(0, this._queue.length);
   } // flushQueue
 
   /**
@@ -177,7 +190,7 @@ class SessionsService {
    *
    */
   getSession(sessionId: string) {
-    const session = this.sessions.find(session => session.getSessionId() == sessionId);
+    const session = this._sessions.find(session => session.getSessionId() == sessionId);
     if (session) return session;
     else return false;
   } // getSession
@@ -192,9 +205,9 @@ class SessionsService {
    */
   getUsersSessions(userId: string, serverId?: string) {
     if (serverId) {
-      return this.sessions.filter(session => session.getUID() == userId && session.getServerId() == serverId);
+      return this._sessions.filter(session => session.getUID() == userId && session.getServerId() == serverId);
     } else {
-      return this.sessions.filter(session => session.getUID() == userId);
+      return this._sessions.filter(session => session.getUID() == userId);
     }
   }
 
@@ -216,10 +229,10 @@ class SessionsService {
           config: {
             capabilities: { audio: false, emotions: true },
           },
-          key: this.key!,
-          secret: this.secret!,
+          key: this._key,
+          secret: this._secret,
           uid: '0',
-          sceneId: this.scene!,
+          sceneId: this._scene,
           characterId: '',
           onError: onFail,
           onMessage: onSuccess
@@ -229,14 +242,14 @@ class SessionsService {
 
         function onFail( err: ServiceError ) {
           if (!pass) {
-            throw Error("❗Unable to connect to Inworld");
+            throw Error("❗Unable to connect to Inworld" + err);
             reject();
           }
         }
 
-        function onSuccess( packet: InworldPacket ) {
+        function onSuccess( packet: InworldPacket ): void {
           if (!pass) {
-            console.log('✔️ Inworld Connection Successful');
+            console.log('✔️ Inworld Connection Test Success');
             pass = true;
             session.getClient().setOnError(() => {});
             session.close()
@@ -256,5 +269,3 @@ class SessionsService {
   } // testConnection
 
 }
-
-export default SessionsService

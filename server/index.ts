@@ -1,11 +1,5 @@
-import App from './app';
-import Router from './router';
-import RouterService from './services/router.service';
-import Session from './entities/session';
-import SessionsService from './services/sessions.service';
-export { App, Router, RouterService, Session, SessionsService };
-
-import config from './config';
+import { App } from './app';
+import { config } from './config';
 
 /**
  * The main process that confirms configuration and creates the server
@@ -27,8 +21,10 @@ async function Main() {
     const app = new App();
     // Test if the server can connect to Inworld
     // await app.testConnection();
+    // Start the REST server
+    app.start();
 
-  } catch (err: any) {
+  } catch (err: unknown) {
 
     // If any error is received log the error and close the server
     console.error(err);
@@ -38,4 +34,4 @@ async function Main() {
 
 }
 
-export const main = Main();
+Main();
