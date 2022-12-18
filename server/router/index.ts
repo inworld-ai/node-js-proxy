@@ -160,7 +160,7 @@ export class Router {
       }
     );
 
-    router.post('/session/:sessionId/custom/:customId',
+    router.get('/session/:sessionId/custom/:customId',
       validate.params(
         Joi.object({
           sessionId: Joi.string().required(),

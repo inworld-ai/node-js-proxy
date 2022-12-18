@@ -77,7 +77,7 @@ export class EventFactory {
         break;
 
       case 10: // Conversation paused due to inactivity
-        // console.error('❗ Inworld paused', sessionId, uid, sessionId);
+        console.error('❗ Inworld paused', sessionId, uid, sessionId);
         event = {
           type: TYPE_PAUSED,
           sessionId: sessionId,

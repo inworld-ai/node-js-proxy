@@ -29,11 +29,7 @@ export class RouterService {
    *
    */
   sessionClose(sessionId: string): boolean {
-    const session = this._sessions.getSession(sessionId);
-    if (session) {
-      session.close();
-      return true;
-    } else return false;
+    return this._sessions.sessionClose(sessionId);
   }
 
   /**
@@ -61,7 +57,7 @@ export class RouterService {
   }
 
   /**
-   * Closes all open session sessions opened using a unique id
+   * Closes all open session sessions opened using a unique id and optionally a server id
    *
    * @param {string} uid - The unqiue identifer for a session
    * @param {string} serverId - The unqiue identifer for a session
@@ -69,11 +65,7 @@ export class RouterService {
    *
    */
   closeAll(uid: string, serverId?: string): boolean {
-    const sessions = this._sessions.getUsersSessions(uid, serverId);
-    if (sessions) {
-      sessions.forEach(session => session.close());
-      return true;
-    } else return false;
+    return this._sessions.closeAll(uid, serverId);
   }
 
   /**

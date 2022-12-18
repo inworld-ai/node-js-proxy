@@ -41,91 +41,6 @@ export class SessionsService {
   }
 
   /**
-   * Open an Inworld session
-   *
-   * @param {Object} props - Constructor properties
-   * @param {string} props.uid - The unqiue identifer for a user
-   * @param {string} props.sceneId - The Inworld scene id
-   * @param {string} props.characterId - The Inworld character id
-   * @param {string} props.[playerName] - The unqiue identifer for a user
-   * @param {string} props.[serverId] - The unqiue identifer for a server
-   * @returns {Promise<ISessionResponse | boolean>} Promise representing ISessionResponse or false if and error is thrown
-   *
-   */
-  async sessionOpen( props : {
-    uid: string,
-    sceneId: string,
-    characterId: string,
-    playerName?: string,
-    serverId?: string,
-  }): Promise<ISessionResponse | boolean> {
-
-    try {
-
-      const session = new Session({
-        config: {
-          capabilities: { audio: false, emotions: false },
-          connection: {
-            autoReconnect: true,
-            disconnectTimeout: config.INWORLD.DISCONNECT_TIMEOUT,
-          },
-        },
-        key: this._key,
-        secret: this._secret,
-        uid: props.uid,
-        sceneId: props.sceneId,
-        characterId: props.characterId,
-        playerName: props.playerName,
-        serverId: props.serverId,
-        onDisconnect: onDisconnect,
-        onError: onError,
-        onMessage: onMessage
-      });
-      this._sessions.push(session);
-
-      const parent = this;
-
-      await session.generateSessionToken();
-
-      session.getConnection();
-
-      await session.setCharacter(props.characterId);
-
-      const response: ISessionResponse = {
-        sessionId: session.getSessionId(),
-        character: await session.getCharacter(),
-        characters: await session.getCharacters()
-      };
-
-      return response;
-
-      function onDisconnect(): void {
-        console.log('Session Disconnected', session.getSessionId());
-      }
-
-      function onError(err: ServiceError) {
-        const error: IEvent | undefined = EventFactory.buildError(err, session.getSessionId(), props.uid, props.serverId);
-        if ( error && error.type == TYPE_DISCONNECTED ) {
-          parent._sessions.splice(parent._sessions.indexOf(session), 1);
-        }
-        if (error) parent._queue.push(error);
-      }
-
-      function onMessage(packet: InworldPacket) {
-        // console.log('Packet', packet)
-        const event: IEvent | undefined = EventFactory.buildEvent(packet, session.getSessionId(), props.uid, props.serverId);
-        if (event) parent._queue.push(event);
-      }
-
-    } catch (e: unknown) {
-      console.error(e);
-      return false;
-    }
-
-
-  } // sessionOpen
-
-  /**
    * Checks if an Inworld session exists
    *
    * @param {string} uid - The unqiue identifer for a user
@@ -211,6 +126,127 @@ export class SessionsService {
       return this._sessions.filter(session => session.getUID() == userId);
     }
   }
+
+  /**
+   * Closes an open session session
+   *
+   * @param {string} sessionId - The unqiue identifer for a session
+   * @returns {boolean} true if the session was successfully closed
+   *
+   */
+  sessionClose(sessionId: string): boolean {
+    const session = this.getSession(sessionId);
+    if (session) {
+      console.log('Closing Session', session.getSessionId());
+      session.close();
+      this._sessions.splice(this._sessions.indexOf(session), 1);
+      return true;
+    } else return false;
+  }
+
+  /**
+   * Closes all open session sessions opened using a unique id and optionally a server id
+   *
+   * @param {string} uid - The unqiue identifer for a session
+   * @param {string} serverId - The unqiue identifer for a session
+   * @returns {boolean} true if the sessions were successfully closed
+   *
+   */
+  closeAll(uid: string, serverId?: string): boolean {
+    const sessions = this.getUsersSessions(uid, serverId);
+    if (sessions) {
+      sessions.forEach(session => {
+        console.log('Closing Session', session.getSessionId());
+        session.close();
+        this._sessions.splice(this._sessions.indexOf(session), 1);
+      });
+      return true;
+    } else return false;
+  }
+
+  /**
+   * Open an Inworld session
+   *
+   * @param {Object} props - Constructor properties
+   * @param {string} props.uid - The unqiue identifer for a user
+   * @param {string} props.sceneId - The Inworld scene id
+   * @param {string} props.characterId - The Inworld character id
+   * @param {string} props.[playerName] - The unqiue identifer for a user
+   * @param {string} props.[serverId] - The unqiue identifer for a server
+   * @returns {Promise<ISessionResponse | boolean>} Promise representing ISessionResponse or false if and error is thrown
+   *
+   */
+  async sessionOpen( props : {
+    uid: string,
+    sceneId: string,
+    characterId: string,
+    playerName?: string,
+    serverId?: string,
+  }): Promise<ISessionResponse | boolean> {
+
+    try {
+
+      const session = new Session({
+        config: {
+          capabilities: { audio: false, emotions: false },
+          connection: {
+            autoReconnect: true,
+            disconnectTimeout: config.INWORLD.DISCONNECT_TIMEOUT,
+          },
+        },
+        key: this._key,
+        secret: this._secret,
+        uid: props.uid,
+        sceneId: props.sceneId,
+        characterId: props.characterId,
+        playerName: props.playerName,
+        serverId: props.serverId,
+        onDisconnect: onDisconnect,
+        onError: onError,
+        onMessage: onMessage
+      });
+      this._sessions.push(session);
+
+      const parent = this;
+
+      await session.generateSessionToken();
+
+      session.getConnection();
+
+      await session.setCharacter(props.characterId);
+
+      const response: ISessionResponse = {
+        sessionId: session.getSessionId(),
+        character: await session.getCharacter(),
+        characters: await session.getCharacters()
+      };
+
+      return response;
+
+      function onDisconnect(): void {
+        // console.log('Session Disconnected', session.getSessionId());
+      }
+
+      function onError(err: ServiceError) {
+        // console.log('err', err)
+        const error: IEvent | undefined = EventFactory.buildError(err, session.getSessionId(), props.uid, props.serverId);
+        if (error) parent._queue.push(error);
+      }
+
+      function onMessage(packet: InworldPacket) {
+        // console.log('Packet', packet)
+        const event: IEvent | undefined = EventFactory.buildEvent(packet, session.getSessionId(), props.uid, props.serverId);
+        if (event) parent._queue.push(event);
+      }
+
+    } catch (e: unknown) {
+      console.error(e);
+      return false;
+    }
+
+
+  } // sessionOpen
+
 
   /**
    * Test if a connection can be made to Inworlds

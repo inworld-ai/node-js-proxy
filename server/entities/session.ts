@@ -78,6 +78,7 @@ export class Session {
    * @returns {void}
    */
   close(): void {
+    // console.log('Close', this._sessionId, this._connection)
     if (this._connection)
       this._connection.close();
   }

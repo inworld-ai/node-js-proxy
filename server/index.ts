@@ -20,7 +20,7 @@ async function Main() {
     // Create the server application
     const app = new App();
     // Test if the server can connect to Inworld
-    // await app.testConnection();
+    await app.testConnection();
     // Start the REST server
     app.start();
 
