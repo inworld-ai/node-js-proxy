@@ -1,23 +1,24 @@
 /**
- * This module parses the enviornment variables defined in .env file into a config
+ * This module parses the enviornment variables defined in .env file into a configuration
  * object.
  *
  * @module
  */
-
+ 
 import 'dotenv/config';
 
 /**
- * @typedef {Object} Config
- * @property {object} SERVERs
- * @property {number} SERVER.PORT
- * @property {object} INWORLD
- * @property {string} INWORLD.KEY
- * @property {string} INWORLD.SECRET
- * @property {string} INWORLD.SCENE
- * @property {number} INWORLD.DISCONNECT_TIMEOUT
+ * The configuration settings for the server and Inworld sessions
+ *
+ * @typedef {Object} config
+ * @property {object} SERVER - The server configuration data
+ * @property {number} SERVER.PORT - The port the server will run on
+ * @property {object} INWORLD - The Inworld configuration data
+ * @property {string} INWORLD.KEY - The Inworld API key
+ * @property {string} INWORLD.SECRET - The Inworld API secret
+ * @property {string} INWORLD.SCENE - The default Inworld scene
+ * @property {number} INWORLD.DISCONNECT_TIMEOUT - The Inworld session inactivity timeout
  */
-// The configuration settings for the server and Inworld sessions
 export const config = {
   SERVER: {
     PORT: Number(process.env.PORT) || 3000,
