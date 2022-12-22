@@ -234,8 +234,8 @@ export class SessionsService {
         const error: IEvent | undefined = EventFactory.buildError(err, session.getSessionId(), props.uid, props.serverId);
         if (error) parent._queue.push(error);
         session.close();
-        const index = this._sessions.indexOf(session);
-        if (index != -1) this._sessions.splice(index, 1);
+        const index = parent._sessions.indexOf(session);
+        if (index != -1) parent._sessions.splice(index, 1);
       }
 
       function onMessage(packet: InworldPacket) {
