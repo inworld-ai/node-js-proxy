@@ -139,7 +139,8 @@ export class SessionsService {
     if (session) {
       console.log('Closing Session', session.getSessionId());
       session.close();
-      this._sessions.splice(this._sessions.indexOf(session), 1);
+      const index = this._sessions.indexOf(session);
+      if (index != -1) this._sessions.splice(index, 1);
       return true;
     } else return false;
   }
@@ -158,7 +159,8 @@ export class SessionsService {
       sessions.forEach(session => {
         console.log('Closing Session', session.getSessionId());
         session.close();
-        this._sessions.splice(this._sessions.indexOf(session), 1);
+        const index = this._sessions.indexOf(session);
+        if (index != -1) this._sessions.splice(index, 1);
       });
       return true;
     } else return false;
@@ -231,6 +233,9 @@ export class SessionsService {
         // console.log('err', err)
         const error: IEvent | undefined = EventFactory.buildError(err, session.getSessionId(), props.uid, props.serverId);
         if (error) parent._queue.push(error);
+        session.close();
+        const index = this._sessions.indexOf(session);
+        if (index != -1) this._sessions.splice(index, 1);
       }
 
       function onMessage(packet: InworldPacket) {
