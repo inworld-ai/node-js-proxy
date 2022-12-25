@@ -231,11 +231,13 @@ export class SessionsService {
 
       function onError(err: ServiceError) {
         // console.log('err', err)
-        const error: IEvent | undefined = EventFactory.buildError(err, session.getSessionId(), props.uid, props.serverId);
-        if (error) parent._queue.push(error);
-        session.close();
-        const index = parent._sessions.indexOf(session);
-        if (index != -1) parent._sessions.splice(index, 1);
+        if (err.code != 10) {
+          const error: IEvent | undefined = EventFactory.buildError(err, session.getSessionId(), props.uid, props.serverId);
+          if (error) parent._queue.push(error);
+          session.close();
+          const index = parent._sessions.indexOf(session);
+          if (index != -1) parent._sessions.splice(index, 1);
+        }
       }
 
       function onMessage(packet: InworldPacket) {

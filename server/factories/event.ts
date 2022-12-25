@@ -45,7 +45,7 @@ export class EventFactory {
     switch (err.code) {
 
       case 1: // Session closed
-        console.error('Client closed session', sessionId);
+        console.error('Client closed open connection', sessionId);
         event = {
           type: TYPE_DISCONNECTED,
           sessionId: sessionId,
