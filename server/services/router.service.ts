@@ -65,7 +65,6 @@ export class RouterService {
    *
    */
   closeAll(uid: string, serverId?: string): boolean {
-    console.log('closeAll', uid, serverId)
     return this._sessions.closeAll(uid, serverId);
   }
 

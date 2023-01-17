@@ -115,7 +115,6 @@ export class EventFactory {
 
     // TEXT
     if (packet.isText()) {
-      console.log('buildEvent', sessionId, serverId, packet.text.text)
       const event: IEventText = {
         type: TYPE_TEXT,
         sessionId: sessionId,

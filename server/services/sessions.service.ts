@@ -137,7 +137,7 @@ export class SessionsService {
   sessionClose(sessionId: string): boolean {
     const session = this.getSession(sessionId);
     if (session) {
-      console.log('Closing Session', session.getSessionId());
+      // console.log('Closing Session', session.getSessionId());
       session.close();
       const index = this._sessions.indexOf(session);
       if (index != -1) this._sessions.splice(index, 1);
@@ -157,7 +157,7 @@ export class SessionsService {
     const sessions = this.getUsersSessions(uid, serverId);
     if (sessions) {
       sessions.forEach(session => {
-        console.log('Closing Session', session.getSessionId());
+        // console.log('Closing Session', session.getSessionId());
         session.close();
         const index = this._sessions.indexOf(session);
         if (index != -1) this._sessions.splice(index, 1);
