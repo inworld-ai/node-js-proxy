@@ -173,6 +173,21 @@ export class RouterService {
   }
 
   /**
+   * Changes an active session's server id
+   *
+   * @param {string} sessionId - The unqiue identifer for a session
+   * @param {string} serverId - The serverId to change to
+   * @returns {Promise<boolean>} Promise representing the Session's serverId was changed to or false if the session was not found
+   *
+   */
+  async setServer(sessionId: string, serverId: string): Promise<boolean> {
+    const session = this._sessions.getSession(sessionId);
+    if (session)
+      return await session.setServer(serverId);
+    else return false;
+  }
+
+  /**
    * Test if a connection can be made to Inworlds
    *
    * @returns {Promise<void>} Promise representing the successful Inworld connection test

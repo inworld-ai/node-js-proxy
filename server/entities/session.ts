@@ -225,4 +225,14 @@ export class Session {
     return false;
   }
 
+  /**
+   * Sets the Session's serverId
+   *
+   * @returns {Promise<(boolean)>}
+   */
+  async setServer(serverId: string): Promise<boolean> {
+    this._serverId = serverId;
+    return true;
+  }
+
 }

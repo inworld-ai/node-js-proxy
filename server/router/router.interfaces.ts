@@ -81,3 +81,10 @@ export interface GetSessionEventsByServerRequestSchema extends ValidatedRequestS
     serverId: string
   }
 }
+
+export interface SetSessionServerRequestSchema extends ValidatedRequestSchema {
+  [ContainerTypes.Params]: {
+    sessionId: string,
+    serverId: string
+  }
+}

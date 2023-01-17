@@ -19,7 +19,8 @@ import { GetCharacterRequestSchema,
   SendMessageRequestSchema,
   OpenSessionsRequestSchema,
   GetSessionStatusRequestSchema,
-  GetSessionEventsByServerRequestSchema
+  GetSessionEventsByServerRequestSchema,
+  SetSessionServerRequestSchema
 } from './router.interfaces';
 import { RouterService } from '../services/router.service';
 
@@ -222,6 +223,25 @@ export class Router {
           res.json(response);
         else
           res.status(409).json('Unable to create session');
+      }
+    );
+
+    router.get('/session/:sessionId/server/:serverId',
+      validate.params(
+        Joi.object({
+          sessionId: Joi.string().required(),
+          serverId: Joi.string().required()
+        })
+      ),
+      async (req: ValidatedRequest<SetSessionServerRequestSchema>, res) => {
+        const {
+          params: { sessionId, serverId }
+        } = req;
+        const response = await props.service.setServer(sessionId, serverId);
+        if (response)
+          res.sendStatus(202);
+        else
+          res.status(404).json('Session ' + sessionId + ' Not Found');
       }
     );
 
