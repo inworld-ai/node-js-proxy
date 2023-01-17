@@ -231,6 +231,7 @@ export class Session {
    * @returns {Promise<(boolean)>}
    */
   async setServer(serverId: string): Promise<boolean> {
+    console.log('session setServer', serverId)
     this._serverId = serverId;
     return true;
   }
