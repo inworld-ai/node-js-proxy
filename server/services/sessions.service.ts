@@ -79,7 +79,7 @@ export class SessionsService {
    */
   flushServerQueue(serverId: string) {
     try {
-      // console.log('flushServerQueue', serverId)
+      console.log('flushServerQueue', serverId)
       const events = this._queue.filter(event => event.serverId == serverId);
       this._queue = this._queue.filter(event => event.serverId != serverId);
       return events;
