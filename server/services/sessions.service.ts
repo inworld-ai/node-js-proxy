@@ -232,7 +232,7 @@ export class SessionsService {
       function onError(err: ServiceError) {
         // console.log('err', err)
         if (err.code != 10) {
-          const error: IEvent | undefined = EventFactory.buildError(err, session.getSessionId(), props.uid, props.serverId);
+          const error: IEvent | undefined = EventFactory.buildError(err, session.getSessionId(), props.uid, session.getServerId());
           if (error) parent._queue.push(error);
           session.close();
           const index = parent._sessions.indexOf(session);
@@ -242,7 +242,7 @@ export class SessionsService {
 
       function onMessage(packet: InworldPacket) {
         // console.log('Packet', packet)
-        const event: IEvent | undefined = EventFactory.buildEvent(packet, session.getSessionId(), props.uid, props.serverId);
+        const event: IEvent | undefined = EventFactory.buildEvent(packet, session.getSessionId(), props.uid, session.getServerId());
         if (event) parent._queue.push(event);
       }
 
