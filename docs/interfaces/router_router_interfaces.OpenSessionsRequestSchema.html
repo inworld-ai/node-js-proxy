@@ -23,7 +23,7 @@
 <ul class="tsd-hierarchy">
 <li><span class="target">OpenSessionsRequestSchema</span></li></ul></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/inworld-ai/node-js-proxy/blob/6a136e3/server/router/router.interfaces.ts#L63">router/router.interfaces.ts:63</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/inworld-ai/node-js-proxy/blob/a3a80b3/server/router/router.interfaces.ts#L63">router/router.interfaces.ts:63</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -41,14 +41,14 @@
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface"><a id="body" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>body</span><a href="#body" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" id="icon-anchor-a"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" id="icon-anchor-b"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" id="icon-anchor-c"></path></svg></a></h3>
-<div class="tsd-signature">body<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span><br/><span>    </span>characterId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span>    </span>playerName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span>    </span>sceneId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span>    </span>serverId<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span>    </span>uid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span></div>
+<div class="tsd-signature">body<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span><br/><span>    </span>characterId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span>    </span>playerName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span>    </span>sceneId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span>    </span>serverId<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span>    </span>uid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span></div>
 <div class="tsd-type-declaration">
 <h4>Type declaration</h4>
 <ul class="tsd-parameters">
 <li class="tsd-parameter">
 <h5>character<wbr/>Id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5></li>
 <li class="tsd-parameter">
-<h5>player<wbr/>Name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5></li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> player<wbr/>Name<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5></li>
 <li class="tsd-parameter">
 <h5>scene<wbr/>Id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5></li>
 <li class="tsd-parameter">
@@ -57,7 +57,7 @@
 <h5>uid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5></li></ul></div><aside class="tsd-sources">
 <p>Overrides ValidatedRequestSchema.body</p>
 <ul>
-<li>Defined in <a href="https://github.com/inworld-ai/node-js-proxy/blob/6a136e3/server/router/router.interfaces.ts#L64">router/router.interfaces.ts:64</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/inworld-ai/node-js-proxy/blob/a3a80b3/server/router/router.interfaces.ts#L64">router/router.interfaces.ts:64</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a id="fields" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>fields</span><a href="#fields" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">fields<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div><aside class="tsd-sources">
@@ -144,7 +144,8 @@
 <li class="tsd-kind-interface tsd-parent-kind-module"><a class="category__link js-category-link" href="router_router_interfaces.OpenSessionsRequestSchema.html" data-id="/interfaces/router_router_interfaces.OpenSessionsRequestSchema.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg>OpenSessionsRequestSchema</a></li>
 <li class="tsd-kind-interface tsd-parent-kind-module"><a class="category__link js-category-link" href="router_router_interfaces.SendCustomRequestSchema.html" data-id="/interfaces/router_router_interfaces.SendCustomRequestSchema.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg>SendCustomRequestSchema</a></li>
 <li class="tsd-kind-interface tsd-parent-kind-module"><a class="category__link js-category-link" href="router_router_interfaces.SendMessageRequestSchema.html" data-id="/interfaces/router_router_interfaces.SendMessageRequestSchema.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg>SendMessageRequestSchema</a></li>
-<li class="tsd-kind-interface tsd-parent-kind-module"><a class="category__link js-category-link" href="router_router_interfaces.SetCharacterRequestSchema.html" data-id="/interfaces/router_router_interfaces.SetCharacterRequestSchema.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg>SetCharacterRequestSchema</a></li></ul></li></ul></li>
+<li class="tsd-kind-interface tsd-parent-kind-module"><a class="category__link js-category-link" href="router_router_interfaces.SetCharacterRequestSchema.html" data-id="/interfaces/router_router_interfaces.SetCharacterRequestSchema.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg>SetCharacterRequestSchema</a></li>
+<li class="tsd-kind-interface tsd-parent-kind-module"><a class="category__link js-category-link" href="router_router_interfaces.SetSessionServerRequestSchema.html" data-id="/interfaces/router_router_interfaces.SetSessionServerRequestSchema.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg>SetSessionServerRequestSchema</a></li></ul></li></ul></li>
 <li><span class="js-category-title category__title" data-id="root-services">
 <div class="category__folder" data-id="root-services"></div>services</span>
 <ul class="js-category-list category" data-id="root-services">

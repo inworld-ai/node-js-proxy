@@ -39,17 +39,34 @@ export class Router {
    */
   constructor(props: { service: RouterService, server: Application }) {
 
+    /**
+     * Express router to mount HTTP requests to related functions.
+     * @type {object}
+     * @const
+     */
     const router: ExpressRouter = ExpressRouter();
     const validate = createValidator();
 
+    // Home Route - Used for checking if the server is running
     router.get('/', (req, res) => {
       res.send('Inworld.AI RESTful Server');
     });
 
+    /**
+     * Route serving login form.
+     * @name get/login
+     * @function
+     * @memberof module:routers/users~usersRouter
+     * @inner
+     * @param {string} path - Express path
+     * @param {callback} middleware - Express middleware.
+     */
+    // Status Route - An API friendly version of checking if the server is running
     router.get('/status', (req, res) => {
       res.sendStatus(200);
     });
 
+    // Get Current Character Route - Returns the character information for an active session
     router.get('/session/:sessionId/character',
     validate.params(
       Joi.object({
@@ -67,6 +84,7 @@ export class Router {
         res.status(404).json('Session ' + sessionId + ' Not Found');
     });
 
+    // Set Character In Scene Route - Changes the current character in the scene for an active session
     router.post('/session/:sessionId/character/:characterId',
     validate.params(
       Joi.object({
@@ -85,6 +103,7 @@ export class Router {
         res.status(404).json('Session ' + sessionId + ' Not Found');
     });
 
+    // Get All Characters In Scene Route - Returns a list of all the characters in the scene for an active session
     router.get('/session/:sessionId/characters',
       validate.params(
         Joi.object({
@@ -103,6 +122,7 @@ export class Router {
       }
     );
 
+    // Close Active Session Route - Terminates an active session
     router.get('/session/:sessionId/close',
       validate.params(
         Joi.object({
@@ -122,6 +142,7 @@ export class Router {
       }
     );
 
+    // Close Players Active Sessions Route - Terminates all active sessions for a player 
     router.get('/session/closeall/:uid',
       validate.params(
         Joi.object({
@@ -141,6 +162,7 @@ export class Router {
       }
     );
 
+    // Close Players Active Sessions On Server Route - Terminates all active sessions for a player on a server
     router.get('/session/closeall/:uid/server/:serverId',
       validate.params(
         Joi.object({

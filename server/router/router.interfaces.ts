@@ -65,7 +65,7 @@ export interface OpenSessionsRequestSchema extends ValidatedRequestSchema {
     uid: string,
     sceneId: string,
     characterId: string,
-    playerName: string,
+    playerName?: string,
     serverId?: string
   }
 }
