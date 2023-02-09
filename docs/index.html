@@ -40,7 +40,7 @@ Workspace.
 <li><a href="#requirements">Requirements</a></li>
 <li><a href="#installation">Installation</a></li>
 <li><a href="#running">Running</a></li>
-<li><a href="#restfulroutes">HTTP RESTful Routes</a></li>
+<li><a href="#documentation">Documentation</a></li>
 <li><a href="#pm2">PM2 Server Installation &amp; Setup (Optional)</a>
 <br/><br/></li>
 </ol>
@@ -51,8 +51,8 @@ Workspace.
 <br/>
 
 <ul>
-<li>Node v16.15.1</li>
-<li>NPM v8.11.0</li>
+<li>Node v16.15.1+</li>
+<li>NPM v8.11.0+</li>
 <li>GIT</li>
 <li>Inworld.ai Account API Key, API Secret and a default Scene ID
 <br /><br/></li>
@@ -93,29 +93,33 @@ Workspace.
 <pre><code><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-0">start</span>
 </code></pre>
 
-<a href="#generating-documentation---if-you-contribute-to-this-opensource-use-this-to-update-the-code-documentation" id="generating-documentation---if-you-contribute-to-this-opensource-use-this-to-update-the-code-documentation" style="color: inherit; text-decoration: none;">
-  <h3>Generating Documentation - If you contribute to this OpenSource use this to update the code documentation.</h3>
+<a href="#generating-documentation---if-you-contribute-to-this-opensource-project-use-this-to-update-the-code-documentation" id="generating-documentation---if-you-contribute-to-this-opensource-project-use-this-to-update-the-code-documentation" style="color: inherit; text-decoration: none;">
+  <h3>Generating Documentation - If you contribute to this OpenSource project use this to update the code documentation.</h3>
 </a>
 <pre><code><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-0">run</span><span class="hl-1"> </span><span class="hl-0">docs</span>
 </code></pre>
 <br/>
 
 
-<a href="#http-restful-routes" id="http-restful-routes" style="color: inherit; text-decoration: none;">
-  <h2><a id="restfulroutes" name="restfulroutes"></a>HTTP RESTful Routes</h2>
+<a href="#documentation" id="documentation" style="color: inherit; text-decoration: none;">
+  <h2><a id="documentation" name="documentation"></a>Documentation</h2>
 </a>
 <br/>
-The following is a list of the HTTP routes used in running this service. 
 
 <ul>
-<li>Checking if the server is active - GET /status</li>
-<li></li>
+<li>Route Documentation - Can be found on Postman <a href="https://documenter.getpostman.com/view/8476904/2s935sn1cT">here</a> </li>
+<li>Code Documentation - The TSDocs code documentation can be found in this project at <code>docs/index.html</code></li>
 </ul>
-<p>Included is a Postman Collection file you can import and test the routes with.
-Import the exported Postman workspace located in this project&#39;s folder at
-<code>postman/Inworld AI.postman_collection.json</code>. The Postman Agent desktop application
-is needed to run the calls via localhost. You may need to update the POST Body data for the
-workspace scene id to your own as well as for any custom scenes/characters
+<p>Use the route documentation to open a session and generate a Session ID. Use that Session ID to send a chat message to the character and then get the events to retrieve the response messages. It is important to close the session after the chat has been completed to prevent conflicts and duplicate sessions. </p>
+<p><b>Basic Route Flow:</b> </p>
+<ol>
+<li><b>Session Open</b> - Opens a new chat session with a character</li>
+<li><b>Session Send Chat Message</b> - Sends a chat message to the character</li>
+<li><b>Service Get All Events</b> - Retrieves the response messages from the character</li>
+<li><b>Session Close</b> - End the chat session with the character</li>
+</ol>
+<p>Included in this project is a Postman Collection file you can import and test the routes with. The file is located in this project at <code>postman/Inworld RESTful API Routes.postman_collection.json</code>. To change the default server host from <code>http://localhost:3000</code>, select the <code>Inworld RESTful API Routes</code> collection and click on the <code>Variables</code> tab. Update the <code>{{HOST}}</code> variable to reflect a new base url.</p>
+<p><b>Note:</b> The Postman Agent desktop application is needed to call the routes via <code>http://localhost:3000</code>.
 <br/><br/></p>
 
 <a href="#pm2-server-installation-amp-setup-optional" id="pm2-server-installation-amp-setup-optional" style="color: inherit; text-decoration: none;">
@@ -124,6 +128,10 @@ workspace scene id to your own as well as for any custom scenes/characters
 <br/>
 
 <p>PM2 can be used to run on a dedicated server in the background as a stable daemon that will restart on crashing and reboot. More documentation on PM2 can be found <a href="https://pm2.keymetrics.io/docs/usage/quick-start/">here</a></p>
+
+<a href="#pm2-terminal-installation-commands" id="pm2-terminal-installation-commands" style="color: inherit; text-decoration: none;">
+  <h4>PM2 Terminal Installation Commands</h4>
+</a>
 <pre><code><span class="hl-0">sudo</span><span class="hl-1"> </span><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-0">install</span><span class="hl-1"> -</span><span class="hl-0">g</span><span class="hl-1"> </span><span class="hl-0">pm2</span><br/><span class="hl-0">pm2</span><span class="hl-1"> </span><span class="hl-0">startup</span><br/><span class="hl-0">pm2</span><span class="hl-1"> </span><span class="hl-0">start</span><span class="hl-1"> </span><span class="hl-0">pm2</span><span class="hl-1">.</span><span class="hl-0">sh</span><span class="hl-1"> --</span><span class="hl-0">name</span><span class="hl-1"> </span><span class="hl-0">inworld</span><br/><span class="hl-0">pm2</span><span class="hl-1"> </span><span class="hl-0">save</span>
 </code></pre>
 <p><br /><br/></p>

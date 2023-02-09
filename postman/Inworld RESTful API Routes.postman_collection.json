@@ -1,0 +1,1355 @@
+{
+	"info": {
+		"_postman_id": "700921ba-5b03-4b36-8b9e-097e0846d681",
+		"name": "Inworld RESTful API Routes",
+		"description": "This is the documentation detailing how to use the routes for this API. Any body content for sent requests is in JSON format.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8476904"
+	},
+	"item": [
+		{
+			"name": "Status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/status",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"status"
+					]
+				},
+				"description": "Status Route - Checks if the server is running."
+			},
+			"response": [
+				{
+					"name": "Status",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"status"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/plain; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "2"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"2-nOO9QiTIwXgNtWtBJezz8kv3SLc\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 09 Feb 2023 08:45:49 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "OK"
+				}
+			]
+		},
+		{
+			"name": "Session Open",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"uid\": \"-1\",\r\n    \"sceneId\": \"\",\r\n    \"characterId\": \"-1\",\r\n    \"playerName\": \"Player1\",\r\n    \"serverId\": \"1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOST}}/session/open",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"session",
+						"open"
+					]
+				},
+				"description": "**Open a Session Route** - Creates a new session using a Scene ID, a Player ID and a Character ID. Also accepts a Player Name and Server ID.\n\n#### **Body Vars**\n\n- **uid**: String - A unique ID representing a player. Note: The uid can be -1 for single player.\n- **sceneId**: String - An Inworld Scene ID.\n- **characterId**: String - An Inworld Character ID from the Scene Above. Note: The characterId can be -1 and a default character will be chosen by the system.\n- **playerName**: String - (optional) The display name of the player.\n- **serverId**: String - (optional) A unique ID representing a game. Note: If the serverId is set then it should be used for the Get All Events For Server, Change Server ID and Close All For Player For Server Routes..\n    \n\n#### Returns\n\n- **sessionId**: String - A unique ID representing the open session.\n- **character:** Object - An object containing the details of the active Character.\n- **characters:** Array - An array of Character objects."
+			},
+			"response": [
+				{
+					"name": "Session Open",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"uid\": \"-1\",\r\n    \"sceneId\": \"workspaces/inworld_wonderland_roblox/scenes/the_caterpillars_mushroom\",\r\n    \"characterId\": \"-1\",\r\n    \"playerName\": \"Player1\",\r\n    \"serverId\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/session/open",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"session",
+								"open"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "423"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"1a7-63Dv+Azms4AxRUlWTmFzdqsfkkA\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 09 Feb 2023 08:37:10 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"sessionId\": \"inworld_wonderland_roblox:1c40ae0f-0ee1-44f5-9834-f34b7e971851\",\n    \"character\": {\n        \"id\": \"6b808329-b274-4a9e-8655-86cd14f32589\",\n        \"resourceName\": \"workspaces/inworld_wonderland_roblox/characters/the_caterpillar\",\n        \"displayName\": \"The Caterpillar\"\n    },\n    \"characters\": [\n        {\n            \"id\": \"6b808329-b274-4a9e-8655-86cd14f32589\",\n            \"resourceName\": \"workspaces/inworld_wonderland_roblox/characters/the_caterpillar\",\n            \"displayName\": \"The Caterpillar\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Session Send Chat Message",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"message\": \"Hello\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOST}}/session/:sessionId/message",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"session",
+						":sessionId",
+						"message"
+					],
+					"variable": [
+						{
+							"key": "sessionId",
+							"value": null,
+							"description": "The unique Session ID key that is returned from the Session Open request"
+						}
+					]
+				},
+				"description": "Send Chat Message Route - Sends a chat message to an active session.\n\n#### **Body Vars**\n\n- message: String - A Player's chat message to send to the session"
+			},
+			"response": [
+				{
+					"name": "Session Send Chat Message",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"message\": \"Hello\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/session/:sessionId/message",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"session",
+								":sessionId",
+								"message"
+							],
+							"variable": [
+								{
+									"key": "sessionId",
+									"value": "inworld_wonderland_roblox:1c40ae0f-0ee1-44f5-9834-f34b7e971851"
+								}
+							]
+						}
+					},
+					"status": "Accepted",
+					"code": 202,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/plain; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "8"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"8-YaBXLEiT7zQxEyDYTILfiL6oPhE\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 09 Feb 2023 08:48:26 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "Accepted"
+				}
+			]
+		},
+		{
+			"name": "Session Send Scene Trigger",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/session/:sessionId/custom/:customId",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"session",
+						":sessionId",
+						"custom",
+						":customId"
+					],
+					"variable": [
+						{
+							"key": "sessionId",
+							"value": null,
+							"description": "The unique Session ID key that is returned from the Session Open request"
+						},
+						{
+							"key": "customId",
+							"value": null,
+							"description": "A Scene Trigger ID configured for the Scene"
+						}
+					]
+				},
+				"description": "Send Custom Scene Trigger Route - Sends a Scene Trigger to an active session."
+			},
+			"response": [
+				{
+					"name": "Session Send Scene Trigger",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/session/:sessionId/custom/:customId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"session",
+								":sessionId",
+								"custom",
+								":customId"
+							],
+							"variable": [
+								{
+									"key": "sessionId",
+									"value": "inworld_wonderland_roblox:1c40ae0f-0ee1-44f5-9834-f34b7e971851"
+								},
+								{
+									"key": "customId",
+									"value": "slain-jabberwock"
+								}
+							]
+						}
+					},
+					"status": "Accepted",
+					"code": 202,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/plain; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "8"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"8-YaBXLEiT7zQxEyDYTILfiL6oPhE\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 09 Feb 2023 08:50:07 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "Accepted"
+				}
+			]
+		},
+		{
+			"name": "Service Get All Events",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/events",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"events"
+					]
+				},
+				"description": "Get Events Route - Returns the events for all open sessions.\n\n#### Returns\n\n- **events**: Array - An array of response chat messages and emotions from the character."
+			},
+			"response": [
+				{
+					"name": "Service Get All Events",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/events",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"events"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "909"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"38d-yD5NldeG02LTVROej+JNaOejShw\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 09 Feb 2023 08:48:48 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"type\": \"text\",\n        \"sessionId\": \"inworld_wonderland_roblox:1c40ae0f-0ee1-44f5-9834-f34b7e971851\",\n        \"uid\": \"-1\",\n        \"serverId\": \"1234\",\n        \"final\": true,\n        \"text\": \"Hey Player1!\"\n    },\n    {\n        \"type\": \"text\",\n        \"sessionId\": \"inworld_wonderland_roblox:1c40ae0f-0ee1-44f5-9834-f34b7e971851\",\n        \"uid\": \"-1\",\n        \"serverId\": \"1234\",\n        \"final\": true,\n        \"text\": \" Welcome to Wonderland, dude!\"\n    },\n    {\n        \"type\": \"text\",\n        \"sessionId\": \"inworld_wonderland_roblox:1c40ae0f-0ee1-44f5-9834-f34b7e971851\",\n        \"uid\": \"-1\",\n        \"serverId\": \"1234\",\n        \"final\": true,\n        \"text\": \" I'm the one and only caterpillar.\"\n    },\n    {\n        \"type\": \"text\",\n        \"sessionId\": \"inworld_wonderland_roblox:1c40ae0f-0ee1-44f5-9834-f34b7e971851\",\n        \"uid\": \"-1\",\n        \"serverId\": \"1234\",\n        \"final\": true,\n        \"text\": \" I can tell you all about this place and the mind-blowing people who live here!\"\n    },\n    {\n        \"type\": \"text\",\n        \"sessionId\": \"inworld_wonderland_roblox:1c40ae0f-0ee1-44f5-9834-f34b7e971851\",\n        \"uid\": \"-1\",\n        \"serverId\": \"1234\",\n        \"final\": true,\n        \"text\": \" What would you like to know?\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Service Get All Events For Server",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/events/:serverId",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"events",
+						":serverId"
+					],
+					"variable": [
+						{
+							"key": "serverId",
+							"value": null,
+							"description": "The unique Game ID sent in the Session Open request"
+						}
+					]
+				},
+				"description": "Get Events Route For Server - Returns the events for all open sessions of a given Server ID.  \nNote: This route is not displayed in the service's logging output.\n\n#### Returns\n\n- **events**: Array - An array of response chat messages and emotions from the character."
+			},
+			"response": [
+				{
+					"name": "Service Get All Events For Server",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/events/:serverId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"events",
+								":serverId"
+							],
+							"variable": [
+								{
+									"key": "serverId",
+									"value": "1234"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "711"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"2c7-/0DJ+3ev1ZMkhukZy3h8uWajpfU\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 09 Feb 2023 08:49:24 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"type\": \"text\",\n        \"sessionId\": \"inworld_wonderland_roblox:1c40ae0f-0ee1-44f5-9834-f34b7e971851\",\n        \"uid\": \"-1\",\n        \"serverId\": \"1234\",\n        \"final\": true,\n        \"text\": \"Sup, my friend!\"\n    },\n    {\n        \"type\": \"text\",\n        \"sessionId\": \"inworld_wonderland_roblox:1c40ae0f-0ee1-44f5-9834-f34b7e971851\",\n        \"uid\": \"-1\",\n        \"serverId\": \"1234\",\n        \"final\": true,\n        \"text\": \" It's good to meet you.\"\n    },\n    {\n        \"type\": \"text\",\n        \"sessionId\": \"inworld_wonderland_roblox:1c40ae0f-0ee1-44f5-9834-f34b7e971851\",\n        \"uid\": \"-1\",\n        \"serverId\": \"1234\",\n        \"final\": true,\n        \"text\": \" So what do you want to learn about the magical land of Wonderand?\"\n    },\n    {\n        \"type\": \"text\",\n        \"sessionId\": \"inworld_wonderland_roblox:1c40ae0f-0ee1-44f5-9834-f34b7e971851\",\n        \"uid\": \"-1\",\n        \"serverId\": \"1234\",\n        \"final\": true,\n        \"text\": \" I've got all the answers!\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Session Get Scene Character List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/session/:sessionId/characters",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"session",
+						":sessionId",
+						"characters"
+					],
+					"variable": [
+						{
+							"key": "sessionId",
+							"value": null,
+							"description": "The unique Session ID key that is returned from the Session Open request"
+						}
+					]
+				},
+				"description": "Get All Characters In Scene Route - Returns a list of all the characters in the scene for an active session."
+			},
+			"response": [
+				{
+					"name": "Session Get Scene Character List",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/session/:sessionId/characters",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"session",
+								":sessionId",
+								"characters"
+							],
+							"variable": [
+								{
+									"key": "sessionId",
+									"value": "inworld_wonderland_roblox:1c40ae0f-0ee1-44f5-9834-f34b7e971851"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "160"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"a0-LLszelU5wS4asOUrz4VB0mVgNZ8\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 09 Feb 2023 08:50:35 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": \"6b808329-b274-4a9e-8655-86cd14f32589\",\n        \"resourceName\": \"workspaces/inworld_wonderland_roblox/characters/the_caterpillar\",\n        \"displayName\": \"The Caterpillar\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Session Get Active Character",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/session/:sessionId/character",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"session",
+						":sessionId",
+						"character"
+					],
+					"variable": [
+						{
+							"key": "sessionId",
+							"value": null,
+							"description": "The unique Session ID key that is returned from the Session Open request"
+						}
+					]
+				},
+				"description": "Get Current Character Route - Returns the character information for an active session."
+			},
+			"response": [
+				{
+					"name": "Session Get Active Character",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/session/:sessionId/character",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"session",
+								":sessionId",
+								"character"
+							],
+							"variable": [
+								{
+									"key": "sessionId",
+									"value": "inworld_wonderland_roblox:1c40ae0f-0ee1-44f5-9834-f34b7e971851"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "158"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"9e-PSxWtqXKE+kTYc2YXfExDg8R31w\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 09 Feb 2023 08:50:43 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"6b808329-b274-4a9e-8655-86cd14f32589\",\n    \"resourceName\": \"workspaces/inworld_wonderland_roblox/characters/the_caterpillar\",\n    \"displayName\": \"The Caterpillar\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Session Set Active Character",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/session/:sessionId/character/:characterId",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"session",
+						":sessionId",
+						"character",
+						":characterId"
+					],
+					"variable": [
+						{
+							"key": "sessionId",
+							"value": null,
+							"description": "The unique Session ID key that is returned from the Session Open request"
+						},
+						{
+							"key": "characterId",
+							"value": null,
+							"description": "A Character ID that exists in the Scene. Note: If it does not exist a default Character will be automatically selected."
+						}
+					]
+				},
+				"description": "Set Character In Scene Route - Changes the current character in the scene for an active session."
+			},
+			"response": [
+				{
+					"name": "Session Set Active Character",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/session/:sessionId/character/:characterId",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"session",
+								":sessionId",
+								"character",
+								":characterId"
+							],
+							"variable": [
+								{
+									"key": "sessionId",
+									"value": "inworld_wonderland_roblox:1c40ae0f-0ee1-44f5-9834-f34b7e971851"
+								},
+								{
+									"key": "characterId",
+									"value": "6b808329-b274-4a9e-8655-86cd14f32589"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "158"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"9e-PSxWtqXKE+kTYc2YXfExDg8R31w\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 09 Feb 2023 08:51:10 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"6b808329-b274-4a9e-8655-86cd14f32589\",\n    \"resourceName\": \"workspaces/inworld_wonderland_roblox/characters/the_caterpillar\",\n    \"displayName\": \"The Caterpillar\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Session Change Server ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/session/:sessionId/server/:serverId",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"session",
+						":sessionId",
+						"server",
+						":serverId"
+					],
+					"variable": [
+						{
+							"key": "sessionId",
+							"value": null,
+							"description": "The unique Session ID key that is returned from the Session Open request"
+						},
+						{
+							"key": "serverId",
+							"value": null,
+							"description": "The unique Game ID sent in the Session Open request"
+						}
+					]
+				},
+				"description": "Update Session Server ID Route - Changes the Server ID for an active session.  \nNote: This is needed to maintain sessions for games where players can change servers such as Roblox."
+			},
+			"response": [
+				{
+					"name": "Session Change Server ID",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/session/:sessionId/server/:serverId",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"session",
+								":sessionId",
+								"server",
+								":serverId"
+							],
+							"variable": [
+								{
+									"key": "sessionId",
+									"value": "inworld_wonderland_roblox:1c40ae0f-0ee1-44f5-9834-f34b7e971851"
+								},
+								{
+									"key": "serverId",
+									"value": "4321"
+								}
+							]
+						}
+					},
+					"status": "Accepted",
+					"code": 202,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/plain; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "8"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"8-YaBXLEiT7zQxEyDYTILfiL6oPhE\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 09 Feb 2023 08:51:29 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "Accepted"
+				}
+			]
+		},
+		{
+			"name": "Session Get Status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/session/:sessionId/status",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"session",
+						":sessionId",
+						"status"
+					],
+					"variable": [
+						{
+							"key": "sessionId",
+							"value": null,
+							"description": "The unique Session ID key that is returned from the Session Open request"
+						}
+					]
+				},
+				"description": "Get Session Status Route - Returns the status for an active session."
+			},
+			"response": [
+				{
+					"name": "Session Get Status",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/session/:sessionId/status",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"session",
+								":sessionId",
+								"status"
+							],
+							"variable": [
+								{
+									"key": "sessionId",
+									"value": "inworld_wonderland_roblox:1c40ae0f-0ee1-44f5-9834-f34b7e971851"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "4"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"4-X/5TO4MPCKAyY0ipFgr6/IraRNs\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 09 Feb 2023 08:51:46 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "true"
+				}
+			]
+		},
+		{
+			"name": "Session Close",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/session/:sessionId/close",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"session",
+						":sessionId",
+						"close"
+					],
+					"variable": [
+						{
+							"key": "sessionId",
+							"value": null,
+							"description": "The unique Session ID key that is returned from the Session Open request"
+						}
+					]
+				},
+				"description": "Close Active Session Route - Terminates an active session."
+			},
+			"response": [
+				{
+					"name": "Session Close",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/session/:sessionId/close",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"session",
+								":sessionId",
+								"close"
+							],
+							"variable": [
+								{
+									"key": "sessionId",
+									"value": "inworld_wonderland_roblox:1c40ae0f-0ee1-44f5-9834-f34b7e971851"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/plain; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "2"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"2-nOO9QiTIwXgNtWtBJezz8kv3SLc\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 09 Feb 2023 08:51:57 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "OK"
+				}
+			]
+		},
+		{
+			"name": "Session Close All For Player",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/session/closeall/:uid",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"session",
+						"closeall",
+						":uid"
+					],
+					"variable": [
+						{
+							"key": "uid",
+							"value": null,
+							"description": "The unique ID representing a player sent in the Session Open request"
+						}
+					]
+				},
+				"description": "Close Players Active Sessions Route - Terminates all active sessions for a player."
+			},
+			"response": [
+				{
+					"name": "Session Close All For Player",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/session/closeall/:uid",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"session",
+								"closeall",
+								":uid"
+							],
+							"variable": [
+								{
+									"key": "uid",
+									"value": "-1"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/plain; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "2"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"2-nOO9QiTIwXgNtWtBJezz8kv3SLc\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 09 Feb 2023 08:52:24 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "OK"
+				}
+			]
+		},
+		{
+			"name": "Session Close All For Player For Server",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/session/closeall/:uid/server/:serverId",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"session",
+						"closeall",
+						":uid",
+						"server",
+						":serverId"
+					],
+					"variable": [
+						{
+							"key": "uid",
+							"value": null,
+							"description": "The unique ID representing a player sent in the Session Open request"
+						},
+						{
+							"key": "serverId",
+							"value": null,
+							"description": "The unique Game ID sent in the Session Open request"
+						}
+					]
+				},
+				"description": "Close Players Active Sessions On Server Route - Terminates all active sessions for a player on a server."
+			},
+			"response": [
+				{
+					"name": "Session Close All For Player For Server",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/session/closeall/:uid/server/:serverId",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"session",
+								"closeall",
+								":uid",
+								"server",
+								":serverId"
+							],
+							"variable": [
+								{
+									"key": "uid",
+									"value": "-1"
+								},
+								{
+									"key": "serverId",
+									"value": "1234"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/plain; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "2"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"2-nOO9QiTIwXgNtWtBJezz8kv3SLc\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 09 Feb 2023 08:52:49 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "OK"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "HOST",
+			"value": "http://localhost:3000",
+			"type": "string"
+		}
+	]
+}

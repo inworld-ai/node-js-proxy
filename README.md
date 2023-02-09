@@ -17,15 +17,15 @@ Workspace.
 1. [Requirements](#requirements)
 2. [Installation](#installation)
 3. [Running](#running)
-4. [HTTP RESTful Routes](#restfulroutes)
+4. [Documentation](#documentation)
 5. [PM2 Server Installation & Setup (Optional)](#pm2)
 <br/><br/>
 
 ## <a id="requirements" name="requirements"></a>Requirements
 <br/>
 
-+ Node v16.15.1
-+ NPM v8.11.0
++ Node v16.15.1+
++ NPM v8.11.0+
 + GIT
 + Inworld.ai Account API Key, API Secret and a default Scene ID
 <br /><br/>
@@ -64,31 +64,38 @@ npm run dev
 npm start
 ```
 
-### Generating Documentation - If you contribute to this OpenSource use this to update the code documentation.
+### Generating Documentation - If you contribute to this OpenSource project use this to update the code documentation.
 
 ```
 npm run docs
 ```
 <br/>
 
-## <a id="restfulroutes" name="restfulroutes"></a>HTTP RESTful Routes
+## <a id="documentation" name="documentation"></a>Documentation
 <br/>
-The following is a list of the HTTP routes used in running this service. 
 
-+ Checking if the server is active - GET /status
-+ 
++ Route Documentation - Can be found on Postman [here](https://documenter.getpostman.com/view/8476904/2s935sn1cT) 
++ Code Documentation - The TSDocs code documentation can be found in this project at `docs/index.html`
 
-Included is a Postman Collection file you can import and test the routes with.
-Import the exported Postman workspace located in this project's folder at
-`postman/Inworld AI.postman_collection.json`. The Postman Agent desktop application
-is needed to run the calls via localhost. You may need to update the POST Body data for the
-workspace scene id to your own as well as for any custom scenes/characters
+Use the route documentation to open a session and generate a Session ID. Use that Session ID to send a chat message to the character and then get the events to retrieve the response messages. It is important to close the session after the chat has been completed to prevent conflicts and duplicate sessions. 
+
+<b>Basic Route Flow:</b> 
+1. <b>Session Open</b> - Opens a new chat session with a character
+2. <b>Session Send Chat Message</b> - Sends a chat message to the character
+3. <b>Service Get All Events</b> - Retrieves the response messages from the character
+4. <b>Session Close</b> - End the chat session with the character
+
+Included in this project is a Postman Collection file you can import and test the routes with. The file is located in this project at `postman/Inworld RESTful API Routes.postman_collection.json`. To change the default server host from `http://localhost:3000`, select the `Inworld RESTful API Routes` collection and click on the `Variables` tab. Update the `{{HOST}}` variable to reflect a new base url.
+
+<b>Note:</b> The Postman Agent desktop application is needed to call the routes via `http://localhost:3000`.
 <br/><br/>
 
 ## <a id="pm2" name="pm2"></a>PM2 Server Installation & Setup (Optional)
 <br/>
 
 PM2 can be used to run on a dedicated server in the background as a stable daemon that will restart on crashing and reboot. More documentation on PM2 can be found [here](https://pm2.keymetrics.io/docs/usage/quick-start/)
+
+#### PM2 Terminal Installation Commands
 ```
 sudo npm install -g pm2
 pm2 startup

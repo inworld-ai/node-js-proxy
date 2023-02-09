@@ -26,7 +26,8 @@ import { RouterService } from '../services/router.service';
 
 
 /**
- * Router loads and processes the RESTful routes
+ * Router loads and processes the RESTful routes. The documentation for the routes can be located in the
+ * Postman Workspace file included with this project.
  */
 export class Router {
 
@@ -47,26 +48,17 @@ export class Router {
     const router: ExpressRouter = ExpressRouter();
     const validate = createValidator();
 
-    // Home Route - Used for checking if the server is running
+    // Home Route - Used for manually checking if the server is running.
     router.get('/', (req, res) => {
       res.send('Inworld.AI RESTful Server');
     });
 
-    /**
-     * Route serving login form.
-     * @name get/login
-     * @function
-     * @memberof module:routers/users~usersRouter
-     * @inner
-     * @param {string} path - Express path
-     * @param {callback} middleware - Express middleware.
-     */
-    // Status Route - An API friendly version of checking if the server is running
+    // Status Route - An API version of checking if the server is running.
     router.get('/status', (req, res) => {
       res.sendStatus(200);
     });
 
-    // Get Current Character Route - Returns the character information for an active session
+    // Get Current Character Route - Returns the character information for an active session.
     router.get('/session/:sessionId/character',
     validate.params(
       Joi.object({
@@ -84,7 +76,7 @@ export class Router {
         res.status(404).json('Session ' + sessionId + ' Not Found');
     });
 
-    // Set Character In Scene Route - Changes the current character in the scene for an active session
+    // Set Character In Scene Route - Changes the current character in the scene for an active session.
     router.post('/session/:sessionId/character/:characterId',
     validate.params(
       Joi.object({
@@ -103,7 +95,7 @@ export class Router {
         res.status(404).json('Session ' + sessionId + ' Not Found');
     });
 
-    // Get All Characters In Scene Route - Returns a list of all the characters in the scene for an active session
+    // Get All Characters In Scene Route - Returns a list of all the characters in the scene for an active session.
     router.get('/session/:sessionId/characters',
       validate.params(
         Joi.object({
@@ -122,7 +114,7 @@ export class Router {
       }
     );
 
-    // Close Active Session Route - Terminates an active session
+    // Close Active Session Route - Terminates an active session.
     router.get('/session/:sessionId/close',
       validate.params(
         Joi.object({
@@ -142,7 +134,7 @@ export class Router {
       }
     );
 
-    // Close Players Active Sessions Route - Terminates all active sessions for a player 
+    // Close Players Active Sessions Route - Terminates all active sessions for a player.
     router.get('/session/closeall/:uid',
       validate.params(
         Joi.object({
@@ -162,7 +154,7 @@ export class Router {
       }
     );
 
-    // Close Players Active Sessions On Server Route - Terminates all active sessions for a player on a server
+    // Close Players Active Sessions On Server Route - Terminates all active sessions for a player on a server.
     router.get('/session/closeall/:uid/server/:serverId',
       validate.params(
         Joi.object({
@@ -183,6 +175,7 @@ export class Router {
       }
     );
 
+    // Send Custom Scene Trigger Route - Sends a Scene Trigger to an active session.
     router.get('/session/:sessionId/custom/:customId',
       validate.params(
         Joi.object({
@@ -202,6 +195,7 @@ export class Router {
       }
     );
 
+    // Send Chat Message Route - Sends a chat message to an active session.
     router.post('/session/:sessionId/message',
       validate.params(
         Joi.object({
@@ -225,7 +219,9 @@ export class Router {
           res.status(404).json('Session ' + sessionId + ' Not Found');
       }
     );
-
+    
+    // Open a Session Route - Creates a new session using a Scene ID, a Player ID and a Character ID. Optionally can send the Player Name and Server ID.
+    // Note: The Player ID and Character ID can both be -1. A default character will be chosen by the system.
     router.post('/session/open',
       validate.body(
         Joi.object({
@@ -247,7 +243,9 @@ export class Router {
           res.status(409).json('Unable to create session');
       }
     );
-
+    
+    // Update Session Server ID Route - Changes the Server ID for an active session.
+    // Note: This is needed to maintain sessions for games where players can change servers such as Roblox.
     router.get('/session/:sessionId/server/:serverId',
       validate.params(
         Joi.object({
@@ -266,7 +264,8 @@ export class Router {
           res.status(404).json('Session ' + sessionId + ' Not Found');
       }
     );
-
+    
+    // Get Session Status Route - Returns the status for an active session.
     router.get('/session/:sessionId/status',
       validate.params(
         Joi.object({
@@ -285,14 +284,16 @@ export class Router {
       }
     );
 
-    // Note: This route is not displayed in logging output
+    // Get Events Route - Returns the events for all open sessions.
+    // Note: This route is not displayed in logging output.
     router.get('/events',
       async (req, res) => {
       const events = props.service.getEvents();
       res.json(events);
     });
 
-    // Note: This route is not displayed in logging output
+    // Get Events Route For Server - Returns the events for all open sessions of a given Server ID.
+    // Note: This route is not displayed in logging output.
     router.get('/events/:serverId',
       validate.params(
         Joi.object({
@@ -309,7 +310,8 @@ export class Router {
     );
 
     props.server.use(router);
-
+    
+    // 404 Error Route - Returns if the route has not been defined above.
     props.server.use((req, res) => {
       res.status(404).json('Route Not Found');
     });
