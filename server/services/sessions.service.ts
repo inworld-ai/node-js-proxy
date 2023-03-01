@@ -190,7 +190,7 @@ export class SessionsService {
 
       const session = new Session({
         config: {
-          capabilities: { audio: false, emotions: true },
+          capabilities: { audio: false, emotions: config.INWORLD.EMOTIONS },
           connection: {
             autoReconnect: true,
             disconnectTimeout: config.INWORLD.DISCONNECT_TIMEOUT,

@@ -18,6 +18,7 @@ import 'dotenv/config';
  * @property {string} INWORLD.SECRET - The Inworld API secret
  * @property {string} INWORLD.SCENE - The default Inworld scene
  * @property {number} INWORLD.DISCONNECT_TIMEOUT - The Inworld session inactivity timeout
+ * @property {boolean} INWORLD.EMOTIONS - Configures the enabled state of emotions for the Inworld sessions
  */
 export const config = {
   SERVER: {
@@ -27,6 +28,7 @@ export const config = {
     KEY: process.env.INWORLD_KEY || '',
     SECRET: process.env.INWORLD_SECRET || '',
     SCENE: process.env.INWORLD_SCENE || '',
-    DISCONNECT_TIMEOUT: Number(process.env.DISCONNECT_TIMEOUT) || 30 * 60 * 1000
-  }
+    DISCONNECT_TIMEOUT: Number(process.env.DISCONNECT_TIMEOUT) || 30 * 60 * 1000,
+    EMOTIONS: (process.env.EMOTIONS == "true" ? true : false),
+  } 
 };
