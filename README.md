@@ -47,6 +47,7 @@ Open the .env file in an editor and fill in the variables explained below
 2. INWORLD_SECRET - Located at [Inworld AI](https://studio.inworld.ai) under Integrations -> API Keys -> Secret. Note: API Secrets are unique for each Workspace.
 3. INWORLD_SCENE - Located at [Inworld AI](https://studio.inworld.ai) under Scenes. Click the button to copy the machine readable id. Note: This is a default scene only used for testing upon starting the service.
 4. PORT - The port to use to run the REST service on. Default is 3000. Note: HTTPS for port 443 is currently not implemented. 
+5. EMOTIONS - A boolean that sets if emotions are enabled for the sessions. true for on. false for off.
 <br /><br />
 
 ## <a id="running" name="running"></a>Running
