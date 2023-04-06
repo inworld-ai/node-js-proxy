@@ -227,9 +227,9 @@ export class Router {
         Joi.object({
           uid: Joi.string().required(),
           sceneId: Joi.string().required(),
-          characterId: Joi.string().required(),
-          playerName: Joi.string().optional(),
-          serverId: Joi.string().optional()
+          characterId: Joi.string().optional().allow(''),
+          playerName: Joi.string().optional().allow(''),
+          serverId: Joi.string().optional().allow('')
         })
       ),
       async (req: ValidatedRequest<OpenSessionsRequestSchema>, res) => {
