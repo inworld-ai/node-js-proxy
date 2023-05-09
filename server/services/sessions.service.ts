@@ -215,6 +215,8 @@ export class SessionsService {
 
       session.getConnection();
 
+      console.log('session.service', props.characterId);
+
       await session.setCharacter(props.characterId);
 
       const response: ISessionResponse = {
@@ -222,6 +224,9 @@ export class SessionsService {
         character: await session.getCharacter(),
         characters: await session.getCharacters()
       };
+
+      
+      console.log('session.service response', response);
 
       return response;
 
