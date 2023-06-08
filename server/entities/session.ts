@@ -214,9 +214,9 @@ export class Session {
   async setCharacter(characterId: string): Promise<(boolean | Character)> {
     if (this._connection) {
       const characters = await this._connection.getCharacters();
-      const character = characters.find(character => character.getId() === characterId);
+      const character = characters.find(character => character.getResourceName() === characterId);
       if (character) {
-        this._characterId = character.getId();
+        this._characterId = character.getResourceName();
         await this._connection.setCurrentCharacter(character);
         return await this._connection.getCurrentCharacter();
       }
